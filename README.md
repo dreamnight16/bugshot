@@ -5,8 +5,6 @@
 
 **Universal UI annotation & feedback tool.** Screenshot → annotate with pins, arrows, rectangles, and freehand → export to AI via MCP protocol.
 
-![UIPin](./resources/screenshot.png)
-
 ## Why UIPin?
 
 The typical UI feedback loop is broken: screenshots sent over chat, vague comments, endless back-and-forth. UIPin replaces this with **visual annotations that AI can directly consume and act on**.
