@@ -1,6 +1,6 @@
 # UIPin
 
-[![CI](https://github.com/DreamNight/UIPin/actions/workflows/ci.yml/badge.svg)](https://github.com/DreamNight/UIPin/actions/workflows/ci.yml)
+[![CI](https://github.com/sixtdreanight/UIPin/actions/workflows/ci.yml/badge.svg)](https://github.com/sixtdreanight/UIPin/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **通用 UI 標註回饋工具。** 擷取螢幕 → 使用標註點、箭頭、矩形和自由畫筆進行標註 → 透過 MCP 協定匯出給 AI。
@@ -26,7 +26,7 @@
 
 ### 下載安裝
 
-從 [Releases](https://github.com/DreamNight/UIPin/releases) 下載最新安裝檔。
+從 [Releases](https://github.com/sixtdreanight/UIPin/releases) 下載最新安裝檔。
 
 | 平台 | 安裝檔 |
 |------|--------|
@@ -37,7 +37,7 @@
 ### 從原始碼建置
 
 ```bash
-git clone https://github.com/DreamNight/UIPin.git
+git clone https://github.com/sixtdreanight/UIPin.git
 cd UIPin
 npm install
 npm run dev      # 開發模式

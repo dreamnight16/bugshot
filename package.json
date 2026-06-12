@@ -4,13 +4,13 @@
   "description": "Universal UI feedback tool — screenshot, annotate, send to AI via MCP",
   "author": "DreamNight",
   "license": "MIT",
-  "homepage": "https://github.com/DreamNight/UIPin#readme",
+  "homepage": "https://github.com/sixtdreanight/UIPin#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/DreamNight/UIPin"
+    "url": "https://github.com/sixtdreanight/UIPin"
   },
   "bugs": {
-    "url": "https://github.com/DreamNight/UIPin/issues"
+    "url": "https://github.com/sixtdreanight/UIPin/issues"
   },
   "main": "./out/main/index.js",
   "engines": {

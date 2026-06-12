@@ -1,6 +1,6 @@
 # UIPin
 
-[![CI](https://github.com/DreamNight/UIPin/actions/workflows/ci.yml/badge.svg)](https://github.com/DreamNight/UIPin/actions/workflows/ci.yml)
+[![CI](https://github.com/sixtdreanight/UIPin/actions/workflows/ci.yml/badge.svg)](https://github.com/sixtdreanight/UIPin/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **Universal UI annotation & feedback tool.** Screenshot → annotate with pins, arrows, rectangles, and freehand → export to AI via MCP protocol.
@@ -28,7 +28,7 @@ The typical UI feedback loop is broken: screenshots sent over chat, vague commen
 
 ### Download
 
-Download the latest installer from [Releases](https://github.com/DreamNight/UIPin/releases).
+Download the latest installer from [Releases](https://github.com/sixtdreanight/UIPin/releases).
 
 | Platform | Package |
 |----------|---------|
@@ -39,7 +39,7 @@ Download the latest installer from [Releases](https://github.com/DreamNight/UIPi
 ### Build from Source
 
 ```bash
-git clone https://github.com/DreamNight/UIPin.git
+git clone https://github.com/sixtdreanight/UIPin.git
 cd UIPin
 npm install
 npm run dev      # Start in development mode

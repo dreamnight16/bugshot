@@ -1,6 +1,6 @@
 # UIPin
 
-[![CI](https://github.com/DreamNight/UIPin/actions/workflows/ci.yml/badge.svg)](https://github.com/DreamNight/UIPin/actions/workflows/ci.yml)
+[![CI](https://github.com/sixtdreanight/UIPin/actions/workflows/ci.yml/badge.svg)](https://github.com/sixtdreanight/UIPin/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **汎用 UI アノテーション・フィードバックツール。** スクリーンショット → ピン・矢印・矩形・フリーハンドで注釈 → MCP プロトコルで AI にエクスポート。
@@ -26,7 +26,7 @@
 
 ### ダウンロード
 
-[Releases](https://github.com/DreamNight/UIPin/releases) から最新のインストーラをダウンロード。
+[Releases](https://github.com/sixtdreanight/UIPin/releases) から最新のインストーラをダウンロード。
 
 | プラットフォーム | パッケージ |
 |-----------------|-----------|
@@ -37,7 +37,7 @@
 ### ソースからビルド
 
 ```bash
-git clone https://github.com/DreamNight/UIPin.git
+git clone https://github.com/sixtdreanight/UIPin.git
 cd UIPin
 npm install
 npm run dev      # 開発モード

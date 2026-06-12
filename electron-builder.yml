@@ -25,5 +25,5 @@ linux:
   icon: resources/icon.png
 publish:
   provider: github
-  owner: DreamNight
+  owner: sixtdreanight
   repo: UIPin

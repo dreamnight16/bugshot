@@ -3,7 +3,7 @@
 ## Development Setup
 
 ```bash
-git clone https://github.com/DreamNight/UIPin.git
+git clone https://github.com/sixtdreanight/UIPin.git
 cd UIPin
 npm install
 npm run dev
