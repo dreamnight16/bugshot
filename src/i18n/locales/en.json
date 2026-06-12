@@ -1,0 +1,83 @@
+{
+  "welcome": {
+    "title": "UIPin",
+    "subtitle": "Universal UI Annotation & Feedback Tool",
+    "fullscreen": "Fullscreen Capture",
+    "region": "Region Capture",
+    "shortcutHint": "P Annotate · A Arrow · R Rect · F Freehand",
+    "startHint": "Press global shortcut or click button to start"
+  },
+  "toolbar": {
+    "pin": "Pin",
+    "arrow": "Arrow",
+    "rectangle": "Rect",
+    "freehand": "Pen",
+    "undo": "Undo",
+    "redo": "Redo",
+    "copy": "Copy",
+    "screenshot": "Screenshot",
+    "exportJson": "JSON",
+    "newCapture": "New Capture",
+    "clearAll": "Clear All"
+  },
+  "sidebar": {
+    "empty": "Click on the screenshot\nto add annotations",
+    "dragHint": "Drag to move",
+    "title": "Annotations",
+    "pinCommentPlaceholder": "Describe the issue...",
+    "drawingNotePlaceholder": "Add note...",
+    "delete": "Delete"
+  },
+  "annotator": {
+    "zoomIn": "+",
+    "zoomOut": "−",
+    "resetView": "1:1"
+  },
+  "comment": {
+    "describeHere": "Describe the issue here...",
+    "deleteAnnotation": "Delete annotation",
+    "close": "Close"
+  },
+  "export": {
+    "feedbackTitle": "UI Issue Feedback",
+    "capturedAt": "Captured at",
+    "window": "Window",
+    "screenshotSize": "Screenshot size",
+    "pin": "Pin",
+    "coordinates": "Coordinates",
+    "element": "Element",
+    "path": "Path",
+    "area": "Area",
+    "lightArea": "Light area",
+    "darkArea": "Dark area",
+    "background": "background",
+    "centerColor": "center color",
+    "note": "Note",
+    "drawingAnnotations": "Drawing Annotations",
+    "arrow": "Arrow",
+    "rectangle": "Rect box",
+    "freehand": "Pen stroke",
+    "totalAnnotations": "annotations in total, please fix each one.",
+    "loadFailed": "Screenshot failed to load"
+  },
+  "prompts": {
+    "fixTitle": "UI issues pointed out via screenshot annotations. Please fix them one by one:",
+    "fixReq1": "Fix each issue individually, don't skip any",
+    "fixReq2": "Don't change parts that aren't annotated",
+    "fixReq3": "After fixing, list what you changed",
+    "styleTitle": "The following markers point out style issues (color, spacing, font size, alignment, etc.). Fix them:",
+    "styleReq1": "Prefer design system variables or utility classes, no magic numbers",
+    "styleReq2": "Ensure responsive compatibility",
+    "styleReq3": "Stay consistent with the project's existing style",
+    "layoutTitle": "The following markers point out layout issues (arrangement, alignment, overflow, responsive breakpoints, etc.). Fix them:",
+    "layoutReq1": "Use Flexbox or CSS Grid to solve layout problems",
+    "layoutReq2": "Don't introduce unnecessary wrapper elements",
+    "layoutReq3": "Verify responsive behavior after fixes"
+  },
+  "language": {
+    "en": "English",
+    "zh-CN": "简体中文",
+    "zh-TW": "繁體中文",
+    "ja": "日本語"
+  }
+}

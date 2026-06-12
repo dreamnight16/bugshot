@@ -1,0 +1,83 @@
+{
+  "welcome": {
+    "title": "UIPin",
+    "subtitle": "通用 UI 标注反馈工具",
+    "fullscreen": "截取全屏",
+    "region": "区域截取",
+    "shortcutHint": "P 标注模式 · A 箭头 · R 矩形 · F 画笔",
+    "startHint": "按全局快捷键或点击按钮开始"
+  },
+  "toolbar": {
+    "pin": "标注",
+    "arrow": "箭头",
+    "rectangle": "矩形",
+    "freehand": "画笔",
+    "undo": "撤销",
+    "redo": "重做",
+    "copy": "复制",
+    "screenshot": "截图",
+    "exportJson": "JSON",
+    "newCapture": "重新截取",
+    "clearAll": "清空全部"
+  },
+  "sidebar": {
+    "empty": "点击截图添加标注\n拖拽移动位置",
+    "dragHint": "拖拽移动位置",
+    "title": "标注列表",
+    "pinCommentPlaceholder": "输入问题描述...",
+    "drawingNotePlaceholder": "输入备注...",
+    "delete": "删除"
+  },
+  "annotator": {
+    "zoomIn": "+",
+    "zoomOut": "−",
+    "resetView": "1:1"
+  },
+  "comment": {
+    "describeHere": "描述这里的问题...",
+    "deleteAnnotation": "删除标注",
+    "close": "关闭"
+  },
+  "export": {
+    "feedbackTitle": "UI 问题反馈",
+    "capturedAt": "截取时间",
+    "window": "窗口",
+    "screenshotSize": "截图尺寸",
+    "pin": "Pin",
+    "coordinates": "坐标",
+    "element": "元素",
+    "path": "路径",
+    "area": "区域",
+    "lightArea": "浅色区域",
+    "darkArea": "深色区域",
+    "background": "背景色",
+    "centerColor": "中心色",
+    "note": "备注",
+    "drawingAnnotations": "绘图标注",
+    "arrow": "箭头",
+    "rectangle": "矩形框",
+    "freehand": "自由画笔",
+    "totalAnnotations": "共 {} 个标注，请逐个修复。",
+    "loadFailed": "截图加载失败"
+  },
+  "prompts": {
+    "fixTitle": "通过截图标注指出了以下 UI 问题，请逐个修复：",
+    "fixReq1": "每个问题都要单独处理，不要遗漏",
+    "fixReq2": "不要改动没有标注的部分",
+    "fixReq3": "修改完成后用列表告诉我改了什么",
+    "styleTitle": "以下标注指出了样式问题（颜色、间距、字体大小、对齐等），请逐个修复：",
+    "styleReq1": "优先使用设计系统的 CSS 变量或 Tailwind 类名，不要写魔法数字",
+    "styleReq2": "确保响应式兼容，不同屏幕尺寸下都正常",
+    "styleReq3": "保持和项目现有风格一致",
+    "layoutTitle": "以下标注指出了布局问题（排列、对齐、溢出、响应式断点等），请逐个修复：",
+    "layoutReq1": "使用 Flexbox 或 CSS Grid 解决布局问题",
+    "layoutReq2": "不要引入不必要的嵌套容器",
+    "layoutReq3": "检查修复后的响应式表现"
+  },
+  "language": {
+    "en": "English",
+    "zh-CN": "简体中文",
+    "zh-TW": "繁體中文",
+    "ja": "日本語"
+  }
+}

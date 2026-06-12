@@ -1,0 +1,83 @@
+{
+  "welcome": {
+    "title": "UIPin",
+    "subtitle": "汎用 UI アノテーション・フィードバックツール",
+    "fullscreen": "全画面キャプチャ",
+    "region": "範囲指定キャプチャ",
+    "shortcutHint": "P 注釈 · A 矢印 · R 矩形 · F ペン",
+    "startHint": "グローバルショートカットまたはボタンをクリックして開始"
+  },
+  "toolbar": {
+    "pin": "注釈",
+    "arrow": "矢印",
+    "rectangle": "矩形",
+    "freehand": "ペン",
+    "undo": "元に戻す",
+    "redo": "やり直し",
+    "copy": "コピー",
+    "screenshot": "スクリーンショット",
+    "exportJson": "JSON",
+    "newCapture": "再キャプチャ",
+    "clearAll": "すべて削除"
+  },
+  "sidebar": {
+    "empty": "スクリーンショットをクリックして\n注釈を追加",
+    "dragHint": "ドラッグで移動",
+    "title": "注釈リスト",
+    "pinCommentPlaceholder": "問題の説明を入力...",
+    "drawingNotePlaceholder": "メモを入力...",
+    "delete": "削除"
+  },
+  "annotator": {
+    "zoomIn": "+",
+    "zoomOut": "−",
+    "resetView": "1:1"
+  },
+  "comment": {
+    "describeHere": "問題を説明してください...",
+    "deleteAnnotation": "注釈を削除",
+    "close": "閉じる"
+  },
+  "export": {
+    "feedbackTitle": "UI 問題フィードバック",
+    "capturedAt": "キャプチャ日時",
+    "window": "ウィンドウ",
+    "screenshotSize": "スクリーンショットサイズ",
+    "pin": "ピン",
+    "coordinates": "座標",
+    "element": "要素",
+    "path": "パス",
+    "area": "領域",
+    "lightArea": "明るい領域",
+    "darkArea": "暗い領域",
+    "background": "背景色",
+    "centerColor": "中央色",
+    "note": "備考",
+    "drawingAnnotations": "描画注釈",
+    "arrow": "矢印",
+    "rectangle": "矩形枠",
+    "freehand": "フリーハンド",
+    "totalAnnotations": "合計 {} 件の注釈、それぞれ修正してください。",
+    "loadFailed": "スクリーンショットの読み込みに失敗しました"
+  },
+  "prompts": {
+    "fixTitle": "スクリーンショットの注釈で以下のUI問題を指摘しました。一つずつ修正してください：",
+    "fixReq1": "各問題を個別に修正し、見落とさないこと",
+    "fixReq2": "注釈のない部分は変更しないこと",
+    "fixReq3": "修正後、変更内容をリストで教えてください",
+    "styleTitle": "以下の注釈はスタイルの問題（色、間隔、フォントサイズ、配置など）を指摘しています。修正してください：",
+    "styleReq1": "デザインシステムの変数やユーティリティクラスを優先し、マジックナンバーを使わないこと",
+    "styleReq2": "レスポンシブ対応を確保すること",
+    "styleReq3": "プロジェクトの既存スタイルと一貫性を保つこと",
+    "layoutTitle": "以下の注釈はレイアウトの問題（配置、整列、オーバーフロー、レスポンシブブレークポイントなど）を指摘しています。修正してください：",
+    "layoutReq1": "Flexbox または CSS Grid でレイアウト問題を解決すること",
+    "layoutReq2": "不要なラッパー要素を導入しないこと",
+    "layoutReq3": "修正後のレスポンシブ動作を確認すること"
+  },
+  "language": {
+    "en": "English",
+    "zh-CN": "简体中文",
+    "zh-TW": "繁體中文",
+    "ja": "日本語"
+  }
+}
