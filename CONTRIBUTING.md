@@ -1,10 +1,10 @@
-# Contributing to UIPin
+# Contributing to ComiRadar
 
 ## Development Setup
 
 ```bash
-git clone https://github.com/sixtdreanight/UIPin.git
-cd UIPin
+git clone https://github.com/sixtdreanight/anime-con-radar.git
+cd anime-con-radar
 npm install
 npm run dev
 ```

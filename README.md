@@ -2,16 +2,16 @@
 
 ---
 
-# UIPin
+# ComiRadar
 
-[![CI](https://github.com/sixtdreanight/UIPin/actions/workflows/ci.yml/badge.svg)](https://github.com/sixtdreanight/UIPin/actions/workflows/ci.yml)
+[![CI](https://github.com/sixtdreanight/anime-con-radar/actions/workflows/ci.yml/badge.svg)](https://github.com/sixtdreanight/anime-con-radar/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **Universal UI annotation & feedback tool.** Screenshot → annotate with pins, arrows, rectangles, and freehand → export to AI via MCP protocol.
 
-## Why UIPin?
+## Why ComiRadar?
 
-The typical UI feedback loop is broken: screenshots sent over chat, vague comments, endless back-and-forth. UIPin replaces this with **visual annotations that AI can directly consume and act on**.
+The typical UI feedback loop is broken: screenshots sent over chat, vague comments, endless back-and-forth. ComiRadar replaces this with **visual annotations that AI can directly consume and act on**.
 
 ## Features
 
@@ -30,7 +30,7 @@ The typical UI feedback loop is broken: screenshots sent over chat, vague commen
 
 ### Download
 
-Download the latest installer from [Releases](https://github.com/sixtdreanight/UIPin/releases).
+Download the latest installer from [Releases](https://github.com/sixtdreanight/anime-con-radar/releases).
 
 | Platform | Package |
 |----------|---------|
@@ -41,8 +41,8 @@ Download the latest installer from [Releases](https://github.com/sixtdreanight/U
 ### Build from Source
 
 ```bash
-git clone https://github.com/sixtdreanight/UIPin.git
-cd UIPin
+git clone https://github.com/sixtdreanight/anime-con-radar
+cd anime-con-radar
 npm install
 npm run dev      # Start in development mode
 npm run build    # Production build
@@ -84,7 +84,7 @@ npm run dist     # Package installer
 
 ## MCP Protocol
 
-UIPin runs a local MCP-compatible JSON-RPC server at `http://127.0.0.1:3846`.
+ComiRadar runs a local MCP-compatible JSON-RPC server at `http://127.0.0.1:3846`.
 
 ### Tools
 
@@ -98,12 +98,12 @@ UIPin runs a local MCP-compatible JSON-RPC server at `http://127.0.0.1:3846`.
 ### Quick Test
 
 ```bash
-# List available tools
+# ComiRadar
 curl -s http://127.0.0.1:3846/mcp \
   -H "Content-Type: application/json" \
   -d '{"method":"tools/list","id":1}'
 
-# Get current annotations
+# ComiRadar
 curl -s http://127.0.0.1:3846/mcp \
   -H "Content-Type: application/json" \
   -d '{"method":"tools/call","id":2,"params":{"name":"list_annotations"}}'
@@ -116,7 +116,7 @@ Subscribe to real-time session updates at `http://127.0.0.1:3846/sse`.
 ## Architecture
 
 ```
-UIPin/
+bugshot/
 ├── electron/              # Electron main process
 │   ├── main.ts            # Window, IPC, shortcuts, tray
 │   ├── preload.ts         # Context bridge API
@@ -143,27 +143,27 @@ UIPin/
 ## Development
 
 ```bash
-# Install dependencies
+# ComiRadar
 npm install
 
-# Start development mode
+# ComiRadar
 npm run dev
 
-# Type check
+# ComiRadar
 npm run typecheck
 
-# Lint
+# ComiRadar
 npm run lint
 
-# Run tests
+# ComiRadar
 npm test
 npm run test:watch
 npm run test:e2e
 
-# Build production
+# ComiRadar
 npm run build
 
-# Package for distribution
+# ComiRadar
 npm run dist
 ```
 

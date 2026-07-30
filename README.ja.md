@@ -2,16 +2,16 @@
 
 ---
 
-# UIPin
+# ComiRadar
 
-[![CI](https://github.com/sixtdreanight/UIPin/actions/workflows/ci.yml/badge.svg)](https://github.com/sixtdreanight/UIPin/actions/workflows/ci.yml)
+[![CI](https://github.com/sixtdreanight/anime-con-radar/actions/workflows/ci.yml/badge.svg)](https://github.com/sixtdreanight/anime-con-radar/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **汎用 UI アノテーション・フィードバックツール。** スクリーンショット → ピン・矢印・矩形・フリーハンドで注釈 → MCP プロトコルで AI にエクスポート。
 
-## なぜ UIPin か？
+## なぜ ComiRadar か？
 
-従来の UI フィードバックは非効率です：チャットでスクリーンショットを送り、あいまいな説明をし、何度もやり取りを繰り返します。UIPin はこれを**AI が直接理解して修正できる視覚的な注釈**に置き換えます。
+従来の UI フィードバックは非効率です：チャットでスクリーンショットを送り、あいまいな説明をし、何度もやり取りを繰り返します。ComiRadar はこれを**AI が直接理解して修正できる視覚的な注釈**に置き換えます。
 
 ## 主な機能
 
@@ -30,7 +30,7 @@
 
 ### ダウンロード
 
-[Releases](https://github.com/sixtdreanight/UIPin/releases) から最新のインストーラをダウンロード。
+[Releases](https://github.com/sixtdreanight/anime-con-radar/releases) から最新のインストーラをダウンロード。
 
 | プラットフォーム | パッケージ |
 |-----------------|-----------|
@@ -41,8 +41,8 @@
 ### ソースからビルド
 
 ```bash
-git clone https://github.com/sixtdreanight/UIPin.git
-cd UIPin
+git clone https://github.com/sixtdreanight/anime-con-radar
+cd anime-con-radar
 npm install
 npm run dev      # 開発モード
 npm run build    # 本番ビルド
@@ -84,7 +84,7 @@ npm run dist     # インストーラのパッケージング
 
 ## MCP プロトコル
 
-UIPin は `http://127.0.0.1:3846` で MCP 互換の JSON-RPC サーバーを実行します。
+ComiRadar は `http://127.0.0.1:3846` で MCP 互換の JSON-RPC サーバーを実行します。
 
 ### ツール一覧
 
@@ -98,12 +98,12 @@ UIPin は `http://127.0.0.1:3846` で MCP 互換の JSON-RPC サーバーを実�
 ### 動作確認
 
 ```bash
-# ツール一覧の取得
+# ComiRadar
 curl -s http://127.0.0.1:3846/mcp \
   -H "Content-Type: application/json" \
   -d '{"method":"tools/list","id":1}'
 
-# 現在の注釈の取得
+# ComiRadar
 curl -s http://127.0.0.1:3846/mcp \
   -H "Content-Type: application/json" \
   -d '{"method":"tools/call","id":2,"params":{"name":"list_annotations"}}'
@@ -118,7 +118,7 @@ curl -s http://127.0.0.1:3846/mcp \
 ## アーキテクチャ
 
 ```
-UIPin/
+bugshot/
 ├── electron/              # Electron メインプロセス
 ├── src/                   # React レンダラープロセス
 │   ├── components/        # UI コンポーネント

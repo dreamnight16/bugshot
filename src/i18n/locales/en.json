@@ -1,6 +1,6 @@
 {
   "welcome": {
-    "title": "UIPin",
+    "title": "ComiRadar",
     "subtitle": "Universal UI Annotation & Feedback Tool",
     "fullscreen": "Fullscreen Capture",
     "region": "Region Capture",
@@ -23,7 +23,7 @@
   "sidebar": {
     "empty": "Click on the screenshot\nto add annotations",
     "dragHint": "Drag to move",
-    "title": "Annotations",
+    "title": "ComiRadar",
     "pinCommentPlaceholder": "Describe the issue...",
     "drawingNotePlaceholder": "Add note...",
     "delete": "Delete"

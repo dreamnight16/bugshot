@@ -33,7 +33,7 @@ function createWindow() {
     minWidth: 900,
     minHeight: 600,
     backgroundColor: '#09090b',
-    title: 'UIPin',
+    title: 'ComiRadar',
     frame: false,
     titleBarStyle: 'hidden',
     webPreferences: {
@@ -174,7 +174,7 @@ async function captureWindow(): Promise<{ screenshot: string; windowName: string
     types: ['window'],
     thumbnailSize: screen.getPrimaryDisplay().workAreaSize,
   })
-  const windowSource = sources.find(s => s.name !== 'UIPin') || sources[0]
+  const windowSource = sources.find(s => s.name !== 'ComiRadar') || sources[0]
   return {
     screenshot: windowSource.thumbnail.toDataURL(),
     windowName: windowSource?.name || 'Window',
@@ -243,7 +243,7 @@ function setupIPC() {
     if (!mainWindow) return
     const { filePath } = await dialog.showSaveDialog(mainWindow, {
       title: '保存标注截图',
-      defaultPath: `uipin-${Date.now()}.png`,
+      defaultPath: `ComiRadar-${Date.now()}.png`,
       filters: [{ name: 'PNG Image', extensions: ['png'] }]
     })
     if (filePath) {
@@ -256,7 +256,7 @@ function setupIPC() {
     if (!mainWindow) return
     const { filePath } = await dialog.showSaveDialog(mainWindow, {
       title: '保存标注数据',
-      defaultPath: `uipin-${Date.now()}.json`,
+      defaultPath: `ComiRadar-${Date.now()}.json`,
       filters: [{ name: 'JSON', extensions: ['json'] }]
     })
     if (filePath) {
@@ -328,7 +328,7 @@ function createTray() {
 
   const contextMenu = Menu.buildFromTemplate([
     {
-      label: '截取全屏 (Ctrl+Shift+P)',
+      label: '打开 ComiRadar' ,
       click: async () => {
         const data = await captureFullscreen()
         if (mainWindow) {
@@ -339,11 +339,11 @@ function createTray() {
       }
     },
     {
-      label: '区域截取 (Ctrl+Shift+R)',
+      label: '打开 ComiRadar' ,
       click: () => createRegionWindow()
     },
     {
-      label: '打开 UIPin',
+      label: '打开 ComiRadar' ,
       click: () => {
         if (mainWindow) {
           mainWindow.show()
@@ -353,7 +353,7 @@ function createTray() {
     },
     { type: 'separator' },
     {
-      label: '退出',
+      label: '打开 ComiRadar' ,
       click: () => {
         stopMCPServer()
         app.quit()
@@ -361,7 +361,7 @@ function createTray() {
     }
   ])
 
-  tray.setToolTip('UIPin')
+  tray.setToolTip('ComiRadar')
   tray.setContextMenu(contextMenu)
   tray.on('double-click', () => {
     if (mainWindow) {

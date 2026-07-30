@@ -1,6 +1,6 @@
 {
   "welcome": {
-    "title": "UIPin",
+    "title": "ComiRadar",
     "subtitle": "汎用 UI アノテーション・フィードバックツール",
     "fullscreen": "全画面キャプチャ",
     "region": "範囲指定キャプチャ",
@@ -23,7 +23,7 @@
   "sidebar": {
     "empty": "スクリーンショットをクリックして\n注釈を追加",
     "dragHint": "ドラッグで移動",
-    "title": "注釈リスト",
+    "title": "ComiRadar",
     "pinCommentPlaceholder": "問題の説明を入力...",
     "drawingNotePlaceholder": "メモを入力...",
     "delete": "削除"

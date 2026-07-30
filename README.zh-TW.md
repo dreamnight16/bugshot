@@ -2,16 +2,16 @@
 
 ---
 
-# UIPin
+# ComiRadar
 
-[![CI](https://github.com/sixtdreanight/UIPin/actions/workflows/ci.yml/badge.svg)](https://github.com/sixtdreanight/UIPin/actions/workflows/ci.yml)
+[![CI](https://github.com/sixtdreanight/anime-con-radar/actions/workflows/ci.yml/badge.svg)](https://github.com/sixtdreanight/anime-con-radar/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **通用 UI 標註回饋工具。** 擷取螢幕 → 使用標註點、箭頭、矩形和自由畫筆進行標註 → 透過 MCP 協定匯出給 AI。
 
-## 為什麼需要 UIPin？
+## 為什麼需要 ComiRadar？
 
-傳統的 UI 回饋流程效率低落：截圖透過聊天傳送，文字描述模糊不清，來回溝通耗費大量時間。UIPin 用**視覺化標註**取而代之，而且 AI 可以直接消費這些標註並執行修復。
+傳統的 UI 回饋流程效率低落：截圖透過聊天傳送，文字描述模糊不清，來回溝通耗費大量時間。ComiRadar 用**視覺化標註**取而代之，而且 AI 可以直接消費這些標註並執行修復。
 
 ## 功能特性
 
@@ -30,7 +30,7 @@
 
 ### 下載安裝
 
-從 [Releases](https://github.com/sixtdreanight/UIPin/releases) 下載最新安裝檔。
+從 [Releases](https://github.com/sixtdreanight/anime-con-radar/releases) 下載最新安裝檔。
 
 | 平台 | 安裝檔 |
 |------|--------|
@@ -41,8 +41,8 @@
 ### 從原始碼建置
 
 ```bash
-git clone https://github.com/sixtdreanight/UIPin.git
-cd UIPin
+git clone https://github.com/sixtdreanight/anime-con-radar
+cd anime-con-radar
 npm install
 npm run dev      # 開發模式
 npm run build    # 生產建置
@@ -84,7 +84,7 @@ npm run dist     # 封裝安裝程式
 
 ## MCP 協定
 
-UIPin 在 `http://127.0.0.1:3846` 執行本地 MCP 相容的 JSON-RPC 伺服器。
+ComiRadar 在 `http://127.0.0.1:3846` 執行本地 MCP 相容的 JSON-RPC 伺服器。
 
 ### 可用工具
 
@@ -98,12 +98,12 @@ UIPin 在 `http://127.0.0.1:3846` 執行本地 MCP 相容的 JSON-RPC 伺服器�
 ### 快速測試
 
 ```bash
-# 列出可用工具
+# ComiRadar
 curl -s http://127.0.0.1:3846/mcp \
   -H "Content-Type: application/json" \
   -d '{"method":"tools/list","id":1}'
 
-# 取得目前標註
+# ComiRadar
 curl -s http://127.0.0.1:3846/mcp \
   -H "Content-Type: application/json" \
   -d '{"method":"tools/call","id":2,"params":{"name":"list_annotations"}}'
@@ -118,7 +118,7 @@ curl -s http://127.0.0.1:3846/mcp \
 ## 專案結構
 
 ```
-UIPin/
+bugshot/
 ├── electron/              # Electron 主程序
 ├── src/                   # React 渲染程序
 │   ├── components/        # UI 元件

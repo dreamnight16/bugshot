@@ -2,16 +2,16 @@
 
 ---
 
-# UIPin
+# ComiRadar
 
-[![CI](https://github.com/sixtdreanight/UIPin/actions/workflows/ci.yml/badge.svg)](https://github.com/sixtdreanight/UIPin/actions/workflows/ci.yml)
+[![CI](https://github.com/sixtdreanight/anime-con-radar/actions/workflows/ci.yml/badge.svg)](https://github.com/sixtdreanight/anime-con-radar/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **通用 UI 标注反馈工具。** 截屏 → 使用标注点、箭头、矩形和自由画笔进行标注 → 通过 MCP 协议导出给 AI。
 
-## 为什么需要 UIPin？
+## 为什么需要 ComiRadar？
 
-传统的 UI 反馈流程效率低下：截图通过聊天发送，文字描述模糊不清，来回沟通耗费大量时间。UIPin 用**可视化标注**取而代之，而且 AI 可以直接消费这些标注并执行修复。
+传统的 UI 反馈流程效率低下：截图通过聊天发送，文字描述模糊不清，来回沟通耗费大量时间。ComiRadar 用**可视化标注**取而代之，而且 AI 可以直接消费这些标注并执行修复。
 
 ## 功能特性
 
@@ -30,7 +30,7 @@
 
 ### 下载安装
 
-从 [Releases](https://github.com/sixtdreanight/UIPin/releases) 下载最新安装包。
+从 [Releases](https://github.com/sixtdreanight/anime-con-radar/releases) 下载最新安装包。
 
 | 平台 | 安装包 |
 |------|--------|
@@ -41,8 +41,8 @@
 ### 从源码构建
 
 ```bash
-git clone https://github.com/sixtdreanight/UIPin.git
-cd UIPin
+git clone https://github.com/sixtdreanight/anime-con-radar
+cd anime-con-radar
 npm install
 npm run dev      # 开发模式
 npm run build    # 生产构建
@@ -84,7 +84,7 @@ npm run dist     # 打包安装程序
 
 ## MCP 协议
 
-UIPin 在 `http://127.0.0.1:3846` 运行本地 MCP 兼容的 JSON-RPC 服务器。
+ComiRadar 在 `http://127.0.0.1:3846` 运行本地 MCP 兼容的 JSON-RPC 服务器。
 
 ### 可用工具
 
@@ -98,12 +98,12 @@ UIPin 在 `http://127.0.0.1:3846` 运行本地 MCP 兼容的 JSON-RPC 服务器�
 ### 快速测试
 
 ```bash
-# 列出可用工具
+# ComiRadar
 curl -s http://127.0.0.1:3846/mcp \
   -H "Content-Type: application/json" \
   -d '{"method":"tools/list","id":1}'
 
-# 获取当前标注
+# ComiRadar
 curl -s http://127.0.0.1:3846/mcp \
   -H "Content-Type: application/json" \
   -d '{"method":"tools/call","id":2,"params":{"name":"list_annotations"}}'
@@ -118,7 +118,7 @@ curl -s http://127.0.0.1:3846/mcp \
 ## 项目结构
 
 ```
-UIPin/
+bugshot/
 ├── electron/              # Electron 主进程
 ├── src/                   # React 渲染进程
 │   ├── components/        # UI 组件

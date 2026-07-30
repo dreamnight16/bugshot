@@ -2,7 +2,7 @@
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability in UIPin, please **do not** file a public issue.
+If you discover a security vulnerability in ComiRadar, please **do not** file a public issue.
 
 Instead, email [DreamNight] with details. You should receive a response within 48 hours.
 
@@ -14,7 +14,7 @@ Instead, email [DreamNight] with details. You should receive a response within 4
 
 ## Security Architecture
 
-UIPin is a local-only Electron desktop application. Key security properties:
+ComiRadar is a local-only Electron desktop application. Key security properties:
 
 - **No network services** — MCP server binds to `127.0.0.1` only, not accessible from remote
 - **Context isolation** — Renderer processes use `contextIsolation: true` with `sandbox: true`

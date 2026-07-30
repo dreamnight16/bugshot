@@ -1,5 +1,5 @@
 appId: com.dreamnight.uipin
-productName: UIPin
+productName: ComiRadar
 directories:
   output: dist
   buildResources: resources
@@ -14,7 +14,7 @@ nsis:
   oneClick: false
   allowToChangeInstallationDirectory: true
   createDesktopShortcut: true
-  shortcutName: UIPin
+  shortcutName: ComiRadar
 mac:
   target:
     - dmg
@@ -26,4 +26,4 @@ linux:
 publish:
   provider: github
   owner: sixtdreanight
-  repo: UIPin
+      repo: anime-con-radar

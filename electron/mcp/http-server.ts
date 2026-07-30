@@ -97,7 +97,7 @@ function createServer(): http.Server {
             result = {
               protocolVersion: '2024-11-05',
               capabilities: { tools: {} },
-              serverInfo: { name: 'uipin', version: '1.0.0' },
+              serverInfo: { name: 'anime-con-radar', version: '1.0.0' },
             }
             break
 

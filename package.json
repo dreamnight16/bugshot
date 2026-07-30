@@ -1,16 +1,16 @@
 {
-  "name": "uipin",
+  "name": "anime-con-radar",
   "version": "1.0.0",
   "description": "Universal UI feedback tool — screenshot, annotate, send to AI via MCP",
   "author": "DreamNight",
   "license": "MIT",
-  "homepage": "https://github.com/sixtdreanight/UIPin#readme",
+  "homepage": "https://github.com/sixtdreanight/anime-con-radar",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sixtdreanight/UIPin"
+    "url": "https://github.com/sixtdreanight/anime-con-radar"
   },
   "bugs": {
-    "url": "https://github.com/sixtdreanight/UIPin/issues"
+    "url": "https://github.com/sixtdreanight/anime-con-radar/issues"
   },
   "main": "./out/main/index.js",
   "engines": {

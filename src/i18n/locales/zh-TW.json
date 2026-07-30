@@ -1,6 +1,6 @@
 {
   "welcome": {
-    "title": "UIPin",
+    "title": "ComiRadar",
     "subtitle": "通用 UI 標註回饋工具",
     "fullscreen": "擷取全螢幕",
     "region": "區域擷取",
@@ -23,7 +23,7 @@
   "sidebar": {
     "empty": "點擊截圖新增標註\n拖曳移動位置",
     "dragHint": "拖曳移動位置",
-    "title": "標註列表",
+    "title": "ComiRadar",
     "pinCommentPlaceholder": "輸入問題描述...",
     "drawingNotePlaceholder": "輸入備註...",
     "delete": "刪除"
