@@ -57,7 +57,7 @@ export default function Toolbar({
       {/* App title */}
       <div className="select-none flex items-center gap-2">
         <span className="text-[13px] font-semibold text-zinc-300 tracking-tight">
-          ComiRadar
+          BugShot
         </span>
       </div>
 

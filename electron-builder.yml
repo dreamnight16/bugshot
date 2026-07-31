@@ -1,5 +1,5 @@
 appId: com.dreamnight.uipin
-productName: ComiRadar
+productName: BugShot
 directories:
   output: dist
   buildResources: resources
@@ -14,7 +14,7 @@ nsis:
   oneClick: false
   allowToChangeInstallationDirectory: true
   createDesktopShortcut: true
-  shortcutName: ComiRadar
+  shortcutName: BugShot
 mac:
   target:
     - dmg

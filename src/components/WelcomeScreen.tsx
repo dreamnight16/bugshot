@@ -64,7 +64,7 @@ export default function WelcomeScreen({ onCapture }: Props) {
 
         <div className="flex flex-col items-center gap-1.5">
           <h1 className="text-[2.5rem] font-bold tracking-tight text-white leading-none">
-            ComiRadar
+            BugShot
           </h1>
           <p className="text-sm text-zinc-500 text-center leading-relaxed max-w-64">
             {t('welcome.subtitle')}

@@ -33,7 +33,7 @@ function createWindow() {
     minWidth: 900,
     minHeight: 600,
     backgroundColor: '#09090b',
-    title: 'ComiRadar',
+    title: 'BugShot',
     frame: false,
     titleBarStyle: 'hidden',
     webPreferences: {
@@ -174,7 +174,7 @@ async function captureWindow(): Promise<{ screenshot: string; windowName: string
     types: ['window'],
     thumbnailSize: screen.getPrimaryDisplay().workAreaSize,
   })
-  const windowSource = sources.find(s => s.name !== 'ComiRadar') || sources[0]
+  const windowSource = sources.find(s => s.name !== 'BugShot') || sources[0]
   return {
     screenshot: windowSource.thumbnail.toDataURL(),
     windowName: windowSource?.name || 'Window',
@@ -243,7 +243,7 @@ function setupIPC() {
     if (!mainWindow) return
     const { filePath } = await dialog.showSaveDialog(mainWindow, {
       title: '保存标注截图',
-      defaultPath: `ComiRadar-${Date.now()}.png`,
+      defaultPath: `BugShot-${Date.now()}.png`,
       filters: [{ name: 'PNG Image', extensions: ['png'] }]
     })
     if (filePath) {
@@ -256,7 +256,7 @@ function setupIPC() {
     if (!mainWindow) return
     const { filePath } = await dialog.showSaveDialog(mainWindow, {
       title: '保存标注数据',
-      defaultPath: `ComiRadar-${Date.now()}.json`,
+      defaultPath: `BugShot-${Date.now()}.json`,
       filters: [{ name: 'JSON', extensions: ['json'] }]
     })
     if (filePath) {
@@ -328,7 +328,7 @@ function createTray() {
 
   const contextMenu = Menu.buildFromTemplate([
     {
-      label: '打开 ComiRadar' ,
+      label: '打开 BugShot' ,
       click: async () => {
         const data = await captureFullscreen()
         if (mainWindow) {
@@ -339,11 +339,11 @@ function createTray() {
       }
     },
     {
-      label: '打开 ComiRadar' ,
+      label: '打开 BugShot' ,
       click: () => createRegionWindow()
     },
     {
-      label: '打开 ComiRadar' ,
+      label: '打开 BugShot' ,
       click: () => {
         if (mainWindow) {
           mainWindow.show()
@@ -353,7 +353,7 @@ function createTray() {
     },
     { type: 'separator' },
     {
-      label: '打开 ComiRadar' ,
+      label: '打开 BugShot' ,
       click: () => {
         stopMCPServer()
         app.quit()
@@ -361,7 +361,7 @@ function createTray() {
     }
   ])
 
-  tray.setToolTip('ComiRadar')
+  tray.setToolTip('BugShot')
   tray.setContextMenu(contextMenu)
   tray.on('double-click', () => {
     if (mainWindow) {
