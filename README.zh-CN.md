@@ -4,7 +4,7 @@
 
 # ComiRadar
 
-[![CI](https://github.com/sixtdreanight/anime-con-radar/actions/workflows/ci.yml/badge.svg)](https://github.com/sixtdreanight/anime-con-radar/actions/workflows/ci.yml)
+[![CI](https://github.com/dreamnight16/anime-con-radar/actions/workflows/ci.yml/badge.svg)](https://github.com/dreamnight16/anime-con-radar/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **通用 UI 标注反馈工具。** 截屏 → 使用标注点、箭头、矩形和自由画笔进行标注 → 通过 MCP 协议导出给 AI。
@@ -30,7 +30,7 @@
 
 ### 下载安装
 
-从 [Releases](https://github.com/sixtdreanight/anime-con-radar/releases) 下载最新安装包。
+从 [Releases](https://github.com/dreamnight16/anime-con-radar/releases) 下载最新安装包。
 
 | 平台 | 安装包 |
 |------|--------|
@@ -41,7 +41,7 @@
 ### 从源码构建
 
 ```bash
-git clone https://github.com/sixtdreanight/anime-con-radar
+git clone https://github.com/dreamnight16/anime-con-radar
 cd anime-con-radar
 npm install
 npm run dev      # 开发模式

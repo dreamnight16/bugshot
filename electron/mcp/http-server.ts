@@ -4,14 +4,17 @@ import { DEFAULT_PORT, HOST } from './types'
 import { addSSEClient, removeSSEClient, broadcastSSE, closeAllSSEClients } from './sse'
 import { getSessionState, listAnnotations, resolveAnnotation, getToolsList, callTool } from './handlers'
 import { logger } from '../logger'
+import { mcpRequestSchema, mcpResolveArgsSchema, isKnownTool } from '../../src/lib/validation'
 
 export const events = new EventEmitter()
 
 let server: http.Server | null = null
 
-function parseMCPBody(body: string): { method: string; id: number; params?: Record<string, unknown> } | null {
+function parseMCPBody(body: string): { method: string; id: number; params?: { name?: string; arguments?: Record<string, unknown> } } | null {
   try {
-    return JSON.parse(body)
+    const parsed = mcpRequestSchema.safeParse(JSON.parse(body))
+    if (!parsed.success) return null
+    return parsed.data
   } catch {
     return null
   }
@@ -87,6 +90,21 @@ function createServer(): http.Server {
               res.writeHead(400, { 'Content-Type': 'application/json' })
               res.end(JSON.stringify({ jsonrpc: '2.0', error: { code: -32602, message: 'Missing tool name' }, id: rpc.id }))
               return
+            }
+
+            if (!isKnownTool(toolName)) {
+              res.writeHead(400, { 'Content-Type': 'application/json' })
+              res.end(JSON.stringify({ jsonrpc: '2.0', error: { code: -32602, message: `Unknown tool: ${toolName}` }, id: rpc.id }))
+              return
+            }
+
+            if (toolName === 'resolve_annotation') {
+              const parsedArgs = mcpResolveArgsSchema.safeParse(toolArgs)
+              if (!parsedArgs.success) {
+                res.writeHead(400, { 'Content-Type': 'application/json' })
+                res.end(JSON.stringify({ jsonrpc: '2.0', error: { code: -32602, message: 'Invalid arguments: id must be a valid annotation ID' }, id: rpc.id }))
+                return
+              }
             }
 
             result = callTool(toolName, toolArgs)

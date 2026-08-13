@@ -3,7 +3,7 @@
 ## Development Setup
 
 ```bash
-git clone https://github.com/sixtdreanight/anime-con-radar.git
+git clone https://github.com/dreamnight16/anime-con-radar.git
 cd anime-con-radar
 npm install
 npm run dev

@@ -4,7 +4,7 @@
 
 # ComiRadar
 
-[![CI](https://github.com/sixtdreanight/anime-con-radar/actions/workflows/ci.yml/badge.svg)](https://github.com/sixtdreanight/anime-con-radar/actions/workflows/ci.yml)
+[![CI](https://github.com/dreamnight16/anime-con-radar/actions/workflows/ci.yml/badge.svg)](https://github.com/dreamnight16/anime-con-radar/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **通用 UI 標註回饋工具。** 擷取螢幕 → 使用標註點、箭頭、矩形和自由畫筆進行標註 → 透過 MCP 協定匯出給 AI。
@@ -30,7 +30,7 @@
 
 ### 下載安裝
 
-從 [Releases](https://github.com/sixtdreanight/anime-con-radar/releases) 下載最新安裝檔。
+從 [Releases](https://github.com/dreamnight16/anime-con-radar/releases) 下載最新安裝檔。
 
 | 平台 | 安裝檔 |
 |------|--------|
@@ -41,7 +41,7 @@
 ### 從原始碼建置
 
 ```bash
-git clone https://github.com/sixtdreanight/anime-con-radar
+git clone https://github.com/dreamnight16/anime-con-radar
 cd anime-con-radar
 npm install
 npm run dev      # 開發模式

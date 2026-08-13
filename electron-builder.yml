@@ -25,5 +25,5 @@ linux:
   icon: resources/icon.png
 publish:
   provider: github
-  owner: sixtdreanight
-      repo: anime-con-radar
+  owner: dreamnight16
+  repo: bugshot

@@ -4,7 +4,7 @@
 
 # ComiRadar
 
-[![CI](https://github.com/sixtdreanight/anime-con-radar/actions/workflows/ci.yml/badge.svg)](https://github.com/sixtdreanight/anime-con-radar/actions/workflows/ci.yml)
+[![CI](https://github.com/dreamnight16/anime-con-radar/actions/workflows/ci.yml/badge.svg)](https://github.com/dreamnight16/anime-con-radar/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **Universal UI annotation & feedback tool.** Screenshot → annotate with pins, arrows, rectangles, and freehand → export to AI via MCP protocol.
@@ -30,7 +30,7 @@ The typical UI feedback loop is broken: screenshots sent over chat, vague commen
 
 ### Download
 
-Download the latest installer from [Releases](https://github.com/sixtdreanight/anime-con-radar/releases).
+Download the latest installer from [Releases](https://github.com/dreamnight16/anime-con-radar/releases).
 
 | Platform | Package |
 |----------|---------|
@@ -41,7 +41,7 @@ Download the latest installer from [Releases](https://github.com/sixtdreanight/a
 ### Build from Source
 
 ```bash
-git clone https://github.com/sixtdreanight/anime-con-radar
+git clone https://github.com/dreamnight16/anime-con-radar
 cd anime-con-radar
 npm install
 npm run dev      # Start in development mode

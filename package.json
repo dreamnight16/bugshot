@@ -4,13 +4,13 @@
   "description": "Universal UI feedback tool — screenshot, annotate, send to AI via MCP",
   "author": "DreamNight",
   "license": "MIT",
-  "homepage": "https://github.com/sixtdreanight/anime-con-radar",
+  "homepage": "https://github.com/dreamnight16/anime-con-radar",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sixtdreanight/anime-con-radar"
+    "url": "https://github.com/dreamnight16/anime-con-radar"
   },
   "bugs": {
-    "url": "https://github.com/sixtdreanight/anime-con-radar/issues"
+    "url": "https://github.com/dreamnight16/anime-con-radar/issues"
   },
   "main": "./out/main/index.js",
   "engines": {
