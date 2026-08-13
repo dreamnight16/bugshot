@@ -1,7 +1,7 @@
 import http from 'http'
 import { EventEmitter } from 'events'
 import { DEFAULT_PORT, HOST } from './types'
-import { addSSEClient, removeSSEClient, broadcastSSE, closeAllSSEClients } from './sse'
+import { addSSEClient, removeSSEClient, closeAllSSEClients } from './sse'
 import { getSessionState, listAnnotations, resolveAnnotation, getToolsList, callTool } from './handlers'
 import { logger } from '../logger'
 import { mcpRequestSchema, mcpResolveArgsSchema, isKnownTool } from '../../src/lib/validation'

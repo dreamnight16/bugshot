@@ -2,7 +2,7 @@ import { app, BrowserWindow, globalShortcut, ipcMain, clipboard, dialog, Tray, M
 import { join } from 'path'
 import { writeFileSync, mkdirSync, existsSync, readFileSync } from 'fs'
 import { startMCPServer, stopMCPServer, updateSessionState } from './mcp-server'
-import { getElementAtPoint, formatUIAInfo, UIAInfo } from './uia'
+import { getElementAtPoint } from './uia'
 import { logger } from './logger'
 import { initAutoUpdater } from './updater'
 
@@ -74,10 +74,6 @@ async function captureFullscreen(): Promise<{ screenshot: string; windowName: st
     screenshot,
     windowName: 'Full Screen',
   }
-}
-
-function logicalToPhysical(val: number): number {
-  return Math.round(val * screen.getPrimaryDisplay().scaleFactor)
 }
 
 function createRegionWindow() {
@@ -280,7 +276,7 @@ function setupIPC() {
     return null
   })
 
-  ipcMain.on('resolve-annotation', (_event, id: string) => {
+  ipcMain.on('resolve-annotation', (_event, _id: string) => {
     try {
       if (existsSync(ANNOTATIONS_FILE)) {
         const session = JSON.parse(readFileSync(ANNOTATIONS_FILE, 'utf-8'))

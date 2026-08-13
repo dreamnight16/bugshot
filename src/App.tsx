@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import WelcomeScreen from './components/WelcomeScreen'
 import Annotator from './components/Annotator'
 import Toolbar from './components/Toolbar'
@@ -142,10 +142,6 @@ function AppInner() {
     pins.remove(id)
     dispatch({ type: 'DESELECT_ALL' })
   }, [pins, drawings, history])
-
-  const handleDrawingUpdate = useCallback((id: string, updates: Parameters<typeof drawings.update>[1]) => {
-    drawings.update(id, updates)
-  }, [drawings])
 
   const handleDrawingDelete = useCallback((id: string) => {
     history.pushState(pins.items, drawings.items)

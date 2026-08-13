@@ -26,13 +26,6 @@ interface Props {
   onDeselectAll: () => void
 }
 
-const TOOL_CURSOR_LABELS: Record<Tool, string> = {
-  pin: '',
-  arrow: '',
-  rectangle: '',
-  freehand: '',
-}
-
 export default function Annotator({
   session, activeTool, pins, drawings,
   selectedPinId, selectedDrawingId,

@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import {
-  pinSchema, drawingSchema, sessionSchema, captureBoundsSchema,
-  mcpRequestSchema, mcpResolveArgsSchema, isKnownTool,
+  pinSchema, drawingSchema, captureBoundsSchema,
+  mcpResolveArgsSchema, isKnownTool,
 } from './validation'
 
 describe('pinSchema', () => {

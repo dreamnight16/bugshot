@@ -1,10 +1,9 @@
 import { describe, it, expect } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
 import { useHistory } from './useHistory'
-import type { Pin, Drawing } from '../types'
+import type { Pin } from '../types'
 
 const pin: Pin = { id: '1', number: 1, x: 0, y: 0, comment: '', color: '#ef4444' }
-const drawing: Drawing = { id: 'd1', type: 'arrow', points: [{ x: 0, y: 0 }, { x: 10, y: 10 }], color: '#3b82f6' }
 
 describe('useHistory', () => {
   it('starts with canUndo=false and canRedo=false', () => {

@@ -1,4 +1,3 @@
-import { vi } from 'vitest'
 import i18next from 'i18next'
 import en from '../i18n/locales/en.json'
 
