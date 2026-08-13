@@ -158,7 +158,6 @@ npm run lint
 # ComiRadar
 npm test
 npm run test:watch
-npm run test:e2e
 
 # ComiRadar
 npm run build

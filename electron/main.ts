@@ -272,7 +272,9 @@ function setupIPC() {
       if (existsSync(ANNOTATIONS_FILE)) {
         return JSON.parse(readFileSync(ANNOTATIONS_FILE, 'utf-8'))
       }
-    } catch { /* ignore */ }
+    } catch (err) {
+      logger.error('Failed to read annotations file', err)
+    }
     return null
   })
 
@@ -285,7 +287,9 @@ function setupIPC() {
         currentSession = session
         updateSessionState(currentSession)
       }
-    } catch { /* ignore */ }
+    } catch (err) {
+      logger.error('Failed to resolve annotation', err)
+    }
   })
 
   ipcMain.handle('query-uia', async (_event, x: number, y: number) => {
@@ -324,7 +328,7 @@ function createTray() {
 
   const contextMenu = Menu.buildFromTemplate([
     {
-      label: '打开 BugShot' ,
+      label: '截图' ,
       click: async () => {
         const data = await captureFullscreen()
         if (mainWindow) {
@@ -335,11 +339,11 @@ function createTray() {
       }
     },
     {
-      label: '打开 BugShot' ,
+      label: '区域截图' ,
       click: () => createRegionWindow()
     },
     {
-      label: '打开 BugShot' ,
+      label: '打开主窗口' ,
       click: () => {
         if (mainWindow) {
           mainWindow.show()
@@ -349,7 +353,7 @@ function createTray() {
     },
     { type: 'separator' },
     {
-      label: '打开 BugShot' ,
+      label: '退出' ,
       click: () => {
         stopMCPServer()
         app.quit()
@@ -367,24 +371,36 @@ function createTray() {
   })
 }
 
-app.whenReady().then(() => {
-  logger.info('UIPin starting...')
-  ensureDataDir()
-  startMCPServer()
-  createWindow()
-  setupIPC()
-  registerShortcuts()
-  createTray()
-  if (mainWindow) initAutoUpdater(mainWindow)
-  logger.info('UIPin ready')
-})
+const gotTheLock = app.requestSingleInstanceLock()
+if (!gotTheLock) {
+  app.quit()
+} else {
+  app.on('second-instance', () => {
+    if (mainWindow) {
+      mainWindow.show()
+      mainWindow.focus()
+    }
+  })
+
+  app.whenReady().then(() => {
+    logger.info('BugShot starting...')
+    ensureDataDir()
+    startMCPServer()
+    createWindow()
+    setupIPC()
+    registerShortcuts()
+    createTray()
+    if (mainWindow) initAutoUpdater(mainWindow)
+    logger.info('BugShot ready')
+  })
+}
 
 app.on('window-all-closed', () => {
   // Don't quit on window close, keep running in tray
 })
 
 app.on('will-quit', () => {
-  logger.info('UIPin shutting down...')
+  logger.info('BugShot shutting down...')
   globalShortcut.unregisterAll()
   stopMCPServer()
 })

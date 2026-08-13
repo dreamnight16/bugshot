@@ -9,7 +9,6 @@ files:
 win:
   target:
     - nsis
-  icon: resources/icon.ico
 nsis:
   oneClick: false
   allowToChangeInstallationDirectory: true
@@ -18,11 +17,9 @@ nsis:
 mac:
   target:
     - dmg
-  icon: resources/icon.icns
 linux:
   target:
     - AppImage
-  icon: resources/icon.png
 publish:
   provider: github
   owner: dreamnight16

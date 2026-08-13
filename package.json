@@ -4,13 +4,13 @@
   "description": "Universal UI feedback tool — screenshot, annotate, send to AI via MCP",
   "author": "DreamNight",
   "license": "MIT",
-  "homepage": "https://github.com/dreamnight16/anime-con-radar",
+  "homepage": "https://github.com/dreamnight16/bugshot",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dreamnight16/anime-con-radar"
+    "url": "https://github.com/dreamnight16/bugshot"
   },
   "bugs": {
-    "url": "https://github.com/dreamnight16/anime-con-radar/issues"
+    "url": "https://github.com/dreamnight16/bugshot/issues"
   },
   "main": "./out/main/index.js",
   "engines": {
@@ -25,7 +25,6 @@
     "dist": "electron-builder",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "playwright test",
     "test:coverage": "vitest run --coverage",
     "lint": "eslint src/ electron/",
     "typecheck": "tsc --noEmit",

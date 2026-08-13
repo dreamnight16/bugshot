@@ -1,4 +1,5 @@
 import http from 'http'
+import { randomBytes } from 'crypto'
 import { EventEmitter } from 'events'
 import { DEFAULT_PORT, HOST } from './types'
 import { addSSEClient, removeSSEClient, closeAllSSEClients } from './sse'
@@ -9,6 +10,23 @@ import { mcpRequestSchema, mcpResolveArgsSchema, isKnownTool } from '../../src/l
 export const events = new EventEmitter()
 
 let server: http.Server | null = null
+let authToken = ''
+
+// DNS-rebinding defense: only accept requests whose Host header resolves to a loopback host.
+function getHostname(req: http.IncomingMessage): string {
+  const host = (req.headers.host || '').toLowerCase()
+  return host.replace(/^\[/, '').replace(/:\d+$/, '').replace(/\]$/, '')
+}
+
+function isAllowedHost(req: http.IncomingMessage): boolean {
+  const hostname = getHostname(req)
+  return hostname === '127.0.0.1' || hostname === 'localhost' || hostname === '::1'
+}
+
+function hasValidAuth(req: http.IncomingMessage): boolean {
+  const header = req.headers.authorization || ''
+  return header === `Bearer ${authToken}`
+}
 
 function parseMCPBody(body: string): { method: string; id: number; params?: { name?: string; arguments?: Record<string, unknown> } } | null {
   try {
@@ -24,11 +42,25 @@ function createServer(): http.Server {
   return http.createServer((req, res) => {
     res.setHeader('Access-Control-Allow-Origin', `http://${HOST}:${DEFAULT_PORT}`)
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS')
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+
+    // DNS-rebinding defense: reject requests not addressed to a loopback host.
+    if (!isAllowedHost(req)) {
+      res.writeHead(403, { 'Content-Type': 'application/json' })
+      res.end(JSON.stringify({ error: 'Forbidden: invalid Host header' }))
+      return
+    }
 
     if (req.method === 'OPTIONS') {
       res.writeHead(204)
       res.end()
+      return
+    }
+
+    // Require the per-session bearer token on every data request.
+    if (!hasValidAuth(req)) {
+      res.writeHead(401, { 'Content-Type': 'application/json' })
+      res.end(JSON.stringify({ error: 'Unauthorized: missing or invalid token' }))
       return
     }
 
@@ -115,7 +147,7 @@ function createServer(): http.Server {
             result = {
               protocolVersion: '2024-11-05',
               capabilities: { tools: {} },
-              serverInfo: { name: 'anime-con-radar', version: '1.0.0' },
+              serverInfo: { name: 'bugshot', version: '1.0.0' },
             }
             break
 
@@ -164,9 +196,14 @@ function createServer(): http.Server {
 }
 
 export function startServer() {
+  authToken = randomBytes(32).toString('hex')
   server = createServer()
+  server.on('error', (err) => {
+    logger.error(`MCP server error: ${err.message}`)
+  })
   server.listen(DEFAULT_PORT, HOST, () => {
     logger.info(`MCP server running on http://${HOST}:${DEFAULT_PORT}`)
+    logger.info(`MCP server auth token: Bearer ${authToken}`)
   })
 }
 
