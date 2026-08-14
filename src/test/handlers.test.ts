@@ -69,4 +69,33 @@ describe('buildMarkdownContext', () => {
     expect(md).toContain('Button misaligned')
     expect(md).toContain('arrow')
   })
+
+  it('renders only the header when the session has no annotations', () => {
+    setSessionState({ screenshot: 'x', windowName: 'Empty', pins: '[]', drawings: '[]' })
+    expect(buildMarkdownContext()).toBe('## UI 问题反馈\n\n窗口: Empty\n\n')
+  })
+
+  it('rounds pin coordinates and falls back to (无备注) for empty comments', () => {
+    setSessionState({
+      screenshot: 'x',
+      windowName: 'W',
+      pins: JSON.stringify([{ id: 'p', number: 1, x: 100.4, y: 199.6, comment: '', color: '#000000' }]),
+      drawings: '[]',
+    })
+    const md = buildMarkdownContext()
+    expect(md).toContain('**Pin 1** — 位置 (100, 200)')
+    expect(md).toContain('> (无备注)')
+  })
+
+  it('omits the comment suffix for drawings without a comment', () => {
+    setSessionState({
+      screenshot: 'x',
+      windowName: 'W',
+      pins: '[]',
+      drawings: JSON.stringify([{ id: 'd1', type: 'rectangle', points: [], color: '#000000' }]),
+    })
+    const md = buildMarkdownContext()
+    expect(md).toContain('- **rectangle** (#000000)\n')
+    expect(md).not.toContain('—')
+  })
 })
