@@ -95,7 +95,20 @@ function rgbToHex(r: number, g: number, b: number): string {
 async function analyzeAllPins(img: HTMLImageElement, pins: Pin[]): Promise<Map<string, PinContext>> {
   const results = new Map<string, PinContext>()
   for (const pin of pins) {
-    results.set(pin.id, await analyzePinContext(img, pin))
+    try {
+      results.set(pin.id, await analyzePinContext(img, pin))
+    } catch {
+      const relX = ((pin.x / img.naturalWidth) * 100).toFixed(1)
+      const relY = ((pin.y / img.naturalHeight) * 100).toFixed(1)
+      results.set(pin.id, {
+        crop: null,
+        relX,
+        relY,
+        dominantColor: 'N/A',
+        bgColor: 'N/A',
+        isLightArea: false,
+      })
+    }
   }
   return results
 }

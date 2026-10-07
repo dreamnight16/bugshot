@@ -1,5 +1,6 @@
-import { describe, it, expect } from 'vitest'
+import { afterEach, describe, it, expect, vi } from 'vitest'
 import { exportJSON } from './export'
+import { renderAnnotatedImage } from './renderer'
 import type { Session, Pin, Drawing } from '../types'
 
 const mockSession: Session = {
@@ -11,6 +12,36 @@ const mockSession: Session = {
   capturedAt: 1700000000000,
   status: 'active',
 }
+
+afterEach(() => {
+  vi.unstubAllGlobals()
+  vi.restoreAllMocks()
+})
+
+describe('renderAnnotatedImage', () => {
+  it('rejects image loading errors', async () => {
+    vi.stubGlobal('Image', class {
+      onerror?: () => void
+      set src(_value: string) {
+        queueMicrotask(() => this.onerror?.())
+      }
+    })
+    await expect(renderAnnotatedImage(mockSession, [], [])).rejects.toThrow('Screenshot failed to load')
+  })
+
+  it('rejects canvas failures rather than leaving export pending', async () => {
+    vi.stubGlobal('Image', class {
+      naturalWidth = 1
+      naturalHeight = 1
+      onload?: () => void
+      set src(_value: string) {
+        queueMicrotask(() => this.onload?.())
+      }
+    })
+    vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(null)
+    await expect(renderAnnotatedImage(mockSession, [], [])).rejects.toThrow('Canvas rendering is unavailable')
+  })
+})
 
 describe('exportJSON', () => {
   it('exports session with pins and drawings', () => {

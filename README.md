@@ -2,35 +2,35 @@
 
 ---
 
-# ComiRadar
+# BugShot
 
-[![CI](https://github.com/dreamnight16/anime-con-radar/actions/workflows/ci.yml/badge.svg)](https://github.com/dreamnight16/anime-con-radar/actions/workflows/ci.yml)
+[![CI](https://github.com/dreamnight16/bugshot/actions/workflows/ci.yml/badge.svg)](https://github.com/dreamnight16/bugshot/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**Universal UI annotation & feedback tool.** Screenshot → annotate with pins, arrows, rectangles, and freehand → export to AI via MCP protocol.
+**UI issue capture tool.** Capture the screen, mark the spot, add a note, and export the report.
 
-## Why ComiRadar?
+## Workflow
 
-The typical UI feedback loop is broken: screenshots sent over chat, vague comments, endless back-and-forth. ComiRadar replaces this with **visual annotations that AI can directly consume and act on**.
+A plain screenshot often loses the coordinates and context needed to reproduce an issue. BugShot keeps the image, coordinates, notes, and UI element details together. Use the optional local MCP server when another tool needs to read the current session.
 
 ## Features
 
 - **3 capture modes** — Fullscreen (`Ctrl+Shift+P`), Region (`Ctrl+Shift+R`), Window (`Ctrl+Shift+W`)
 - **4 annotation tools** — Pin markers, arrows, rectangles, freehand drawing
-- **Undo/redo** — 50-step history
-- **Zoom & pan** — Scroll to zoom, Shift+drag to pan
-- **MCP Server** — AI tools (Claude Code, Cursor, Windsurf) can read annotations live via JSON-RPC + SSE
-- **Export** — Markdown (with color analysis + cropped regions), JSON, annotated PNG
-- **UIA integration** — Auto-detects Windows UI element name, type, class, and ancestry tree at each pin
+- **Undo/redo** — Keep up to 50 history steps
+- **Zoom & pan** — Scroll to zoom; Shift+drag to pan
+- **MCP Server** — Optional local JSON-RPC + SSE endpoint for external tools
+- **Export** — Markdown report, annotated PNG, and JSON session data
+- **UIA integration** — Read the Windows UI element name, type, class, and ancestry at each pin
 - **i18n** — English, 简体中文, 繁體中文, 日本語
-- **System tray** — Always available, never in the way
-- **Auto-update** — Keeps itself current via GitHub Releases
+- **System tray** — Keep BugShot running from the tray
+- **Auto-update** — Check GitHub Releases for updates
 
 ## Quick Start
 
 ### Download
 
-Download the latest installer from [Releases](https://github.com/dreamnight16/anime-con-radar/releases).
+Download the latest installer from [Releases](https://github.com/dreamnight16/bugshot/releases).
 
 | Platform | Package |
 |----------|---------|
@@ -41,8 +41,8 @@ Download the latest installer from [Releases](https://github.com/dreamnight16/an
 ### Build from Source
 
 ```bash
-git clone https://github.com/dreamnight16/anime-con-radar
-cd anime-con-radar
+git clone https://github.com/dreamnight16/bugshot
+cd bugshot
 npm install
 npm run dev      # Start in development mode
 npm run build    # Production build
@@ -78,13 +78,18 @@ npm run dist     # Package installer
 
 ### Export Formats
 
-- **Copy (Markdown)** — Full bug report with coordinates, color analysis, cropped region screenshots, and UIA element tree. Paste directly into AI chat.
-- **Screenshot (PNG)** — Annotated screenshot with all markers baked in.
-- **JSON** — Structured data for programmatic consumption.
+- **Copy (Markdown)** — Coordinates, notes, cropped regions, colors, and the UIA element tree. Paste it into an issue or review.
+- **Screenshot (PNG)** — Save the annotated image.
+- **JSON** — Save structured session data.
 
 ## MCP Protocol
 
-ComiRadar runs a local MCP-compatible JSON-RPC server at `http://127.0.0.1:3846`.
+BugShot runs an optional local MCP-compatible JSON-RPC server at `http://127.0.0.1:3846`.
+
+The server creates a fresh bearer token on every launch. The token is printed in
+the BugShot log as `MCP server auth token: Bearer ...`; copy it into the
+`Authorization` header for every `/mcp` and `/sse` request. The server remains
+loopback-only and rejects requests with a non-loopback `Host` header.
 
 ### Tools
 
@@ -93,25 +98,29 @@ ComiRadar runs a local MCP-compatible JSON-RPC server at `http://127.0.0.1:3846`
 | `list_annotations` | List all active annotation pins and drawings |
 | `get_screenshot` | Get current screenshot metadata |
 | `resolve_annotation` | Mark an annotation as resolved (removes from list) |
-| `get_context` | Get structured Markdown context for AI consumption |
+| `get_context` | Get structured Markdown context for a person or external tool |
 
 ### Quick Test
 
 ```bash
-# ComiRadar
+# Replace this with the token printed in the BugShot log.
+TOKEN="paste-token-here"
+
 curl -s http://127.0.0.1:3846/mcp \
+  -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"method":"tools/list","id":1}'
 
-# ComiRadar
 curl -s http://127.0.0.1:3846/mcp \
+  -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"method":"tools/call","id":2,"params":{"name":"list_annotations"}}'
 ```
 
 ### SSE (Server-Sent Events)
 
-Subscribe to real-time session updates at `http://127.0.0.1:3846/sse`.
+Subscribe to real-time session updates at `http://127.0.0.1:3846/sse` with the
+same `Authorization: Bearer $TOKEN` header.
 
 ## Architecture
 
@@ -143,26 +152,19 @@ bugshot/
 ## Development
 
 ```bash
-# ComiRadar
 npm install
 
-# ComiRadar
 npm run dev
 
-# ComiRadar
 npm run typecheck
 
-# ComiRadar
 npm run lint
 
-# ComiRadar
 npm test
 npm run test:watch
 
-# ComiRadar
 npm run build
 
-# ComiRadar
 npm run dist
 ```
 

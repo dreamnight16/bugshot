@@ -2,35 +2,35 @@
 
 ---
 
-# ComiRadar
+# BugShot
 
-[![CI](https://github.com/dreamnight16/anime-con-radar/actions/workflows/ci.yml/badge.svg)](https://github.com/dreamnight16/anime-con-radar/actions/workflows/ci.yml)
+[![CI](https://github.com/dreamnight16/bugshot/actions/workflows/ci.yml/badge.svg)](https://github.com/dreamnight16/bugshot/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**汎用 UI アノテーション・フィードバックツール。** スクリーンショット → ピン・矢印・矩形・フリーハンドで注釈 → MCP プロトコルで AI にエクスポート。
+**UI 問題の記録ツール。** 画面をキャプチャし、位置を示し、メモを追加してレポートを出力します。
 
-## なぜ ComiRadar か？
+## 使い方
 
-従来の UI フィードバックは非効率です：チャットでスクリーンショットを送り、あいまいな説明をし、何度もやり取りを繰り返します。ComiRadar はこれを**AI が直接理解して修正できる視覚的な注釈**に置き換えます。
+スクリーンショットだけでは座標や状況が抜けて、問題の再現に手間がかかります。BugShot は画像、座標、メモ、UI 要素情報を一つのレポートにまとめます。別のツールから現在のセッションを読むときだけ、任意のローカル MCP サーバーを使います。
 
 ## 主な機能
 
 - **3 種類のキャプチャ** — 全画面（`Ctrl+Shift+P`）、範囲指定（`Ctrl+Shift+R`）、ウィンドウ（`Ctrl+Shift+W`）
 - **4 種類の注釈ツール** — ピン、矢印、矩形、フリーハンド
-- **元に戻す/やり直し** — 50 ステップの履歴
+- **元に戻す/やり直し** — 50 ステップまで履歴を保持
 - **ズームとパン** — スクロールでズーム、Shift+ドラッグでパン
-- **MCP サーバー** — AI ツール（Claude Code、Cursor、Windsurf）が JSON-RPC + SSE で注釈をリアルタイムに読み取り
-- **エクスポート** — Markdown（色分析 + 切り抜き領域付き）、JSON、注釈付き PNG
-- **UIA 統合** — 各ピン位置の Windows UI 要素名、型、クラス、祖先ツリーを自動検出
+- **MCP サーバー** — 外部ツール用の任意のローカル JSON-RPC + SSE エンドポイント
+- **エクスポート** — Markdown レポート、注釈付き PNG、JSON セッションデータ
+- **UIA 統合** — 各ピン位置の Windows UI 要素名、型、クラス、祖先ツリーを読み取る
 - **多言語対応** — English、简体中文、繁體中文、日本語
-- **システムトレイ** — 常駐、邪魔にならない
-- **自動アップデート** — GitHub Releases 経由で最新バージョンを維持
+- **システムトレイ** — トレイに置いて実行を続ける
+- **更新** — GitHub Releases から更新を確認
 
 ## クイックスタート
 
 ### ダウンロード
 
-[Releases](https://github.com/dreamnight16/anime-con-radar/releases) から最新のインストーラをダウンロード。
+[Releases](https://github.com/dreamnight16/bugshot/releases) から最新のインストーラをダウンロード。
 
 | プラットフォーム | パッケージ |
 |-----------------|-----------|
@@ -41,8 +41,8 @@
 ### ソースからビルド
 
 ```bash
-git clone https://github.com/dreamnight16/anime-con-radar
-cd anime-con-radar
+git clone https://github.com/dreamnight16/bugshot
+cd bugshot
 npm install
 npm run dev      # 開発モード
 npm run build    # 本番ビルド
@@ -78,13 +78,13 @@ npm run dist     # インストーラのパッケージング
 
 ### エクスポート形式
 
-- **コピー（Markdown）** — 座標、色分析、切り抜き領域のスクリーンショット、UIA 要素ツリーを含む完全なバグレポート。AI チャットに直接貼り付け可能。
-- **スクリーンショット（PNG）** — すべての注釈を重ねた画像。
-- **JSON** — プログラムで処理するための構造化データ。
+- **コピー（Markdown）** — 座標、メモ、切り抜き領域、色、UIA 要素ツリーを含みます。チケットやレビューに貼り付けて使えます。
+- **スクリーンショット（PNG）** — 注釈を重ねた画像を保存します。
+- **JSON** — セッションデータを構造化形式で保存します。
 
 ## MCP プロトコル
 
-ComiRadar は `http://127.0.0.1:3846` で MCP 互換の JSON-RPC サーバーを実行します。
+BugShot は `http://127.0.0.1:3846` で任意の MCP 互換 JSON-RPC サーバーを実行できます。
 
 ### ツール一覧
 
@@ -93,17 +93,17 @@ ComiRadar は `http://127.0.0.1:3846` で MCP 互換の JSON-RPC サーバーを
 | `list_annotations` | アクティブな注釈ピンと描画の一覧 |
 | `get_screenshot` | 現在のスクリーンショットのメタデータ |
 | `resolve_annotation` | 注釈を解決済みとしてマーク（リストから削除） |
-| `get_context` | AI 用の構造化 Markdown コンテキスト |
+| `get_context` | 人または外部ツール向けの構造化 Markdown コンテキスト |
 
 ### 動作確認
 
 ```bash
-# ComiRadar
+# BugShot
 curl -s http://127.0.0.1:3846/mcp \
   -H "Content-Type: application/json" \
   -d '{"method":"tools/list","id":1}'
 
-# ComiRadar
+# BugShot
 curl -s http://127.0.0.1:3846/mcp \
   -H "Content-Type: application/json" \
   -d '{"method":"tools/call","id":2,"params":{"name":"list_annotations"}}'

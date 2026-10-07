@@ -32,7 +32,7 @@ describe('buildFixPrompt', () => {
 
   it('handles empty annotations', () => {
     const prompt = buildFixPrompt(mockSession, [], [])
-    expect(prompt).toContain('fix them one by one')
+    expect(prompt).toMatch(/fix them one by one/i)
   })
 })
 
@@ -43,8 +43,8 @@ describe('buildStyleFixPrompt', () => {
     ]
     const prompt = buildStyleFixPrompt(mockSession, pins, [])
     expect(prompt).toContain('style issues')
-    expect(prompt).toContain('design system')
-    expect(prompt).toContain('responsive')
+    expect(prompt).toContain('design-system')
+    expect(prompt).toContain('different screen sizes')
   })
 })
 

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Copy, Download, Undo2, Redo2, Pin, ArrowRightFromLine, Square, Pen, Camera, Trash2, Minus, X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import type { Tool, CaptureMode, Session, Pin as PinType, Drawing } from '../types'
@@ -31,29 +32,47 @@ export default function Toolbar({
   onNewCapture, onClearAll, session, pins, drawings,
 }: Props) {
   const { t } = useTranslation()
+  const [exportState, setExportState] = useState<'idle' | 'working' | 'success' | 'error'>('idle')
 
   const handleCopy = async () => {
-    const md = await exportMarkdown(session, pins, drawings)
-    window.electronAPI?.copyToClipboard(md)
-    const sessionJson = exportJSON(session, pins, drawings)
-    window.electronAPI?.updateAnnotations(sessionJson)
+    setExportState('working')
+    try {
+      const md = await exportMarkdown(session, pins, drawings)
+      window.electronAPI!.copyToClipboard(md)
+      const sessionJson = exportJSON(session, pins, drawings)
+      window.electronAPI!.updateAnnotations(sessionJson)
+      setExportState('success')
+    } catch {
+      setExportState('error')
+    }
   }
 
   const handleSaveScreenshot = async () => {
-    const dataUrl = await renderAnnotatedImage(session, pins, drawings)
-    window.electronAPI?.saveScreenshot(dataUrl)
+    setExportState('working')
+    try {
+      const dataUrl = await renderAnnotatedImage(session, pins, drawings)
+      window.electronAPI!.saveScreenshot(dataUrl)
+      setExportState('success')
+    } catch {
+      setExportState('error')
+    }
   }
 
   const handleSaveJson = () => {
-    const json = exportJSON(session, pins, drawings)
-    window.electronAPI?.saveJson(json)
+    try {
+      const json = exportJSON(session, pins, drawings)
+      window.electronAPI!.saveJson(json)
+      setExportState('success')
+    } catch {
+      setExportState('error')
+    }
   }
 
   const activeDef = TOOL_DEFS.find(t => t.id === activeTool)
   const activeColor = activeDef?.color ?? '#71717a'
 
   return (
-    <div className="flex items-center gap-2.5 pl-4 pr-1 h-11 bg-zinc-950/85 backdrop-blur-xl border-b border-zinc-800/40 drag relative z-20">
+    <div className="flex items-center gap-2.5 pl-4 pr-1 h-11 min-w-0 overflow-x-auto bg-zinc-950/85 backdrop-blur-xl border-b border-zinc-800/40 drag relative z-20">
       {/* App title */}
       <div className="select-none flex items-center gap-2">
         <span className="text-[13px] font-semibold text-zinc-300 tracking-tight">
@@ -94,7 +113,7 @@ export default function Toolbar({
                 }}
                 strokeWidth={isActive ? 2.5 : 1.75}
               />
-              <span className="relative hidden sm:inline">{t(labelKey)}</span>
+              <span className="relative hidden md:inline">{t(labelKey)}</span>
             </button>
           )
         })}
@@ -123,7 +142,7 @@ export default function Toolbar({
         </button>
       </div>
 
-      <div className="flex-1" />
+      <div className="flex-1 min-w-2" />
 
       {/* Export actions */}
       <div className="flex items-center gap-1.5 no-drag">
@@ -153,6 +172,18 @@ export default function Toolbar({
         >
           JSON
         </button>
+        <span
+          className={`hidden lg:inline max-w-32 truncate text-[11px] ${
+            exportState === 'error' ? 'text-red-400' :
+            exportState === 'success' ? 'text-emerald-400' : 'text-zinc-500'
+          }`}
+          role="status"
+          aria-live="polite"
+        >
+          {exportState === 'working' && t('toolbar.exporting')}
+          {exportState === 'success' && t('toolbar.exported')}
+          {exportState === 'error' && t('toolbar.exportFailed')}
+        </span>
       </div>
 
       {/* Divider */}

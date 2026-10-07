@@ -1,10 +1,10 @@
-# Contributing to ComiRadar
+# Contributing to BugShot
 
 ## Development Setup
 
 ```bash
-git clone https://github.com/dreamnight16/anime-con-radar.git
-cd anime-con-radar
+git clone https://github.com/dreamnight16/bugshot.git
+cd bugshot
 npm install
 npm run dev
 ```

@@ -1,7 +1,7 @@
 {
   "name": "bugshot",
   "version": "1.0.0",
-  "description": "Universal UI feedback tool — screenshot, annotate, send to AI via MCP",
+  "description": "Capture and mark UI issues; export reports locally with optional MCP integration",
   "author": "DreamNight",
   "license": "MIT",
   "homepage": "https://github.com/dreamnight16/bugshot",

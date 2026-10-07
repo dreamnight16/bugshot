@@ -2,35 +2,35 @@
 
 ---
 
-# ComiRadar
+# BugShot
 
-[![CI](https://github.com/dreamnight16/anime-con-radar/actions/workflows/ci.yml/badge.svg)](https://github.com/dreamnight16/anime-con-radar/actions/workflows/ci.yml)
+[![CI](https://github.com/dreamnight16/bugshot/actions/workflows/ci.yml/badge.svg)](https://github.com/dreamnight16/bugshot/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**通用 UI 標註回饋工具。** 擷取螢幕 → 使用標註點、箭頭、矩形和自由畫筆進行標註 → 透過 MCP 協定匯出給 AI。
+**UI 問題取證工具。** 擷取畫面、標出位置、補充備註，匯出報告。
 
-## 為什麼需要 ComiRadar？
+## 工作流程
 
-傳統的 UI 回饋流程效率低落：截圖透過聊天傳送，文字描述模糊不清，來回溝通耗費大量時間。ComiRadar 用**視覺化標註**取而代之，而且 AI 可以直接消費這些標註並執行修復。
+普通截圖常常缺少座標和上下文，重現問題時還要來回確認。BugShot 把截圖、座標、備註和 UI 元素資訊放在同一份報告裡。需要外部工具讀取目前工作階段時，再啟用可選的本機 MCP 服務。
 
 ## 功能特性
 
 - **3 種擷取模式** — 全螢幕（`Ctrl+Shift+P`）、區域（`Ctrl+Shift+R`）、視窗（`Ctrl+Shift+W`）
 - **4 種標註工具** — 標註點、箭頭、矩形框、自由畫筆
-- **復原/重做** — 50 步歷程記錄
+- **復原/重做** — 保留 50 步歷程記錄
 - **縮放與平移** — 滾輪縮放，Shift+拖曳平移
-- **MCP 伺服器** — AI 工具（Claude Code、Cursor、Windsurf）可透過 JSON-RPC + SSE 即時讀取標註
-- **匯出格式** — Markdown（含色彩分析 + 區域裁剪）、JSON、標註截圖 PNG
-- **UIA 整合** — 自動偵測每個標註點下的 Windows UI 元素名稱、類型、類別名稱和祖譜樹
+- **MCP 伺服器** — 可選的本機 JSON-RPC + SSE 端點，供外部工具讀取工作階段
+- **匯出格式** — Markdown 報告、標註截圖 PNG、JSON 工作階段資料
+- **UIA 整合** — 讀取每個標註點對應的 Windows UI 元素名稱、類型、類別名稱和祖先樹
 - **多語言** — English、简体中文、繁體中文、日本語
-- **系統托盤** — 常駐背景，隨時可用
-- **自動更新** — 透過 GitHub Releases 自動保持最新版本
+- **系統托盤** — 放在托盤中繼續執行
+- **更新** — 從 GitHub Releases 檢查新版本
 
 ## 快速開始
 
 ### 下載安裝
 
-從 [Releases](https://github.com/dreamnight16/anime-con-radar/releases) 下載最新安裝檔。
+從 [Releases](https://github.com/dreamnight16/bugshot/releases) 下載最新安裝檔。
 
 | 平台 | 安裝檔 |
 |------|--------|
@@ -41,8 +41,8 @@
 ### 從原始碼建置
 
 ```bash
-git clone https://github.com/dreamnight16/anime-con-radar
-cd anime-con-radar
+git clone https://github.com/dreamnight16/bugshot
+cd bugshot
 npm install
 npm run dev      # 開發模式
 npm run build    # 生產建置
@@ -78,13 +78,13 @@ npm run dist     # 封裝安裝程式
 
 ### 匯出格式
 
-- **複製（Markdown）** — 完整的問題報告，含座標、色彩分析、區域截圖、UIA 元素樹。可直接貼上到 AI 對話中。
-- **截圖（PNG）** — 所有標註合成到截圖上。
-- **JSON** — 結構化資料供程式化處理。
+- **複製（Markdown）** — 包含座標、備註、區域裁剪、色彩和 UIA 元素樹。可貼到工單或程式碼審查工具中。
+- **截圖（PNG）** — 儲存合成標註後的圖片。
+- **JSON** — 儲存結構化工作階段資料。
 
 ## MCP 協定
 
-ComiRadar 在 `http://127.0.0.1:3846` 執行本地 MCP 相容的 JSON-RPC 伺服器。
+BugShot 可在 `http://127.0.0.1:3846` 執行本機 MCP 相容的 JSON-RPC 伺服器。
 
 ### 可用工具
 
@@ -93,17 +93,17 @@ ComiRadar 在 `http://127.0.0.1:3846` 執行本地 MCP 相容的 JSON-RPC 伺服
 | `list_annotations` | 列出所有活動標註點和繪圖 |
 | `get_screenshot` | 取得目前截圖元資料 |
 | `resolve_annotation` | 標記標註為已解決（從列表中移除） |
-| `get_context` | 取得結構化 Markdown 上下文供 AI 使用 |
+| `get_context` | 取得供人工或外部工具使用的結構化 Markdown 上下文 |
 
 ### 快速測試
 
 ```bash
-# ComiRadar
+# BugShot
 curl -s http://127.0.0.1:3846/mcp \
   -H "Content-Type: application/json" \
   -d '{"method":"tools/list","id":1}'
 
-# ComiRadar
+# BugShot
 curl -s http://127.0.0.1:3846/mcp \
   -H "Content-Type: application/json" \
   -d '{"method":"tools/call","id":2,"params":{"name":"list_annotations"}}'

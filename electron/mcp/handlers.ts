@@ -95,7 +95,7 @@ const TOOLS: McpTool[] = [
   },
   {
     name: 'get_context',
-    description: '获取当前会话的完整 AI 上下文，包括结构化 Markdown 问题描述，可直接用于 AI 修复。',
+    description: '获取当前会话的结构化 Markdown 问题描述，可供人工或外部工具使用。',
     inputSchema: { type: 'object', properties: {} },
   },
 ]

@@ -10,9 +10,9 @@ interface Props {
 const captureOptions: {
   mode: CaptureMode; labelKey: string; shortcut: string; icon: typeof Camera; color: string
 }[] = [
-  { mode: 'fullscreen', labelKey: 'welcome.fullscreen', shortcut: 'Ctrl + Shift + P', icon: MonitorSmartphone, color: '#60a5fa' },
-  { mode: 'region',     labelKey: 'welcome.region',    shortcut: 'Ctrl + Shift + R', icon: Layers,            color: '#4ade80' },
-  { mode: 'window',     labelKey: 'Window',            shortcut: 'Ctrl + Shift + W', icon: Camera,            color: '#fbbf24' },
+  { mode: 'fullscreen', labelKey: 'welcome.fullscreen', shortcut: 'Ctrl + Shift + P', icon: MonitorSmartphone, color: '#61b6ff' },
+  { mode: 'region',     labelKey: 'welcome.region',    shortcut: 'Ctrl + Shift + R', icon: Layers,            color: '#b6d64a' },
+  { mode: 'window',     labelKey: 'welcome.window',    shortcut: 'Ctrl + Shift + W', icon: Camera,            color: '#f1bd61' },
 ]
 
 export default function WelcomeScreen({ onCapture }: Props) {
@@ -24,7 +24,7 @@ export default function WelcomeScreen({ onCapture }: Props) {
   }, [])
 
   return (
-    <div className="relative flex flex-col items-center justify-center h-screen gap-12 overflow-hidden bg-zinc-950 select-none">
+    <div className="relative flex flex-col items-center justify-center h-screen gap-12 overflow-hidden bg-[#0d131a] select-none">
       {/* Dot grid — larger, richer */}
       <div
         className="absolute inset-0"
@@ -56,8 +56,8 @@ export default function WelcomeScreen({ onCapture }: Props) {
       >
         {/* Logo mark */}
         <div className="relative">
-          <div className="absolute inset-0 rounded-2xl blur-2xl bg-blue-500/20 scale-150" />
-          <div className="relative w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 via-blue-500 to-violet-500 flex items-center justify-center ring-1 ring-white/10 shadow-2xl shadow-blue-500/30">
+          <div className="signal-aura absolute inset-0 rounded-2xl blur-2xl bg-cyan-400/15 scale-150" />
+          <div className="relative w-20 h-20 rounded-2xl bg-[#172633] flex items-center justify-center ring-1 ring-cyan-200/20 shadow-[0_0_30px_rgba(47,158,174,0.22)]">
             <MonitorSmartphone className="w-9 h-9 text-white" strokeWidth={1.5} />
           </div>
         </div>
@@ -78,12 +78,12 @@ export default function WelcomeScreen({ onCapture }: Props) {
           <button
             key={mode}
             onClick={() => onCapture(mode)}
-            className="group relative flex items-center gap-4 px-5 py-4 rounded-xl bg-zinc-900/70 border border-zinc-800/70 hover:border-zinc-700/70 hover:bg-zinc-800/50 transition-all duration-300 text-left overflow-hidden"
+            className="group relative flex items-center gap-4 px-5 py-4 rounded-xl bg-zinc-900/70 border border-zinc-800/70 hover:border-cyan-200/30 hover:bg-zinc-800/50 transition-[background-color,border-color,transform,box-shadow] duration-300 ease-[cubic-bezier(.34,1.56,.64,1)] hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(0,0,0,.2)] text-left overflow-hidden"
             style={{
               opacity: visible ? 1 : 0,
               transform: visible ? 'translateY(0)' : 'translateY(12px)',
               transitionDelay: `${150 + i * 80}ms`,
-              transitionProperty: 'all',
+              transitionProperty: 'opacity, transform',
               transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           >
@@ -95,7 +95,7 @@ export default function WelcomeScreen({ onCapture }: Props) {
 
             {/* Icon badge */}
             <div
-              className="relative w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 group-hover:scale-105"
+              className="relative w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(.34,1.56,.64,1)] group-hover:scale-105 group-hover:shadow-[0_0_18px_rgba(47,158,174,.18)]"
               style={{
                 backgroundColor: color + '14',
                 boxShadow: `inset 0 1px 0 ${color}10`,
@@ -107,7 +107,7 @@ export default function WelcomeScreen({ onCapture }: Props) {
             {/* Label */}
             <div className="flex flex-col gap-0.5">
               <span className="font-medium text-sm text-zinc-200 group-hover:text-white transition-colors duration-200">
-                {labelKey === 'Window' ? 'Window' : t(labelKey)}
+                {t(labelKey)}
               </span>
               <span className="text-[11px] text-zinc-600 group-hover:text-zinc-500 transition-colors duration-200 font-mono tracking-tight">
                 {shortcut}

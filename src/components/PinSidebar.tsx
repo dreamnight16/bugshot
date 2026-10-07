@@ -44,7 +44,7 @@ export default function PinSidebar({
   const isEmpty = pins.length === 0 && drawings.length === 0
 
   return (
-    <div className="w-72 bg-zinc-950/70 backdrop-blur-sm border-l border-zinc-800/40 flex flex-col overflow-hidden">
+    <div className="w-64 sm:w-72 shrink-0 bg-zinc-950/70 backdrop-blur-sm border-l border-zinc-800/40 flex flex-col overflow-hidden">
       {/* Header */}
       <div className="px-4 py-3.5 border-b border-zinc-800/40">
         <div className="flex items-center justify-between">

@@ -1,11 +1,12 @@
 {
   "welcome": {
     "title": "BugShot",
-    "subtitle": "汎用 UI アノテーション・フィードバックツール",
+    "subtitle": "UI 問題を記録して共有",
     "fullscreen": "全画面キャプチャ",
     "region": "範囲指定キャプチャ",
+    "window": "ウィンドウキャプチャ",
     "shortcutHint": "P 注釈 · A 矢印 · R 矩形 · F ペン",
-    "startHint": "グローバルショートカットまたはボタンをクリックして開始"
+    "startHint": "ショートカットまたはキャプチャ方法を選択"
   },
   "toolbar": {
     "pin": "注釈",
@@ -14,18 +15,21 @@
     "freehand": "ペン",
     "undo": "元に戻す",
     "redo": "やり直し",
-    "copy": "コピー",
-    "screenshot": "スクリーンショット",
+    "copy": "レポートをコピー",
+    "screenshot": "PNG を保存",
     "exportJson": "JSON",
     "newCapture": "再キャプチャ",
-    "clearAll": "すべて削除"
+    "clearAll": "注釈を消去",
+    "exporting": "レポートを準備中...",
+    "exported": "デスクトップアプリに送信済み",
+    "exportFailed": "エクスポートに失敗しました"
   },
   "sidebar": {
-    "empty": "スクリーンショットをクリックして\n注釈を追加",
+    "empty": "スクリーンショットをクリックして注釈を追加\nドラッグで位置を変更",
     "dragHint": "ドラッグで移動",
     "title": "BugShot",
-    "pinCommentPlaceholder": "問題の説明を入力...",
-    "drawingNotePlaceholder": "メモを入力...",
+    "pinCommentPlaceholder": "問題を説明...",
+    "drawingNotePlaceholder": "メモを追加...",
     "delete": "削除"
   },
   "annotator": {
@@ -34,42 +38,42 @@
     "resetView": "1:1"
   },
   "comment": {
-    "describeHere": "問題を説明してください...",
+    "describeHere": "問題を説明...",
     "deleteAnnotation": "注釈を削除",
     "close": "閉じる"
   },
   "export": {
-    "feedbackTitle": "UI 問題フィードバック",
+    "feedbackTitle": "UI 問題レポート",
     "capturedAt": "キャプチャ日時",
     "window": "ウィンドウ",
-    "screenshotSize": "スクリーンショットサイズ",
+    "screenshotSize": "画像サイズ",
     "pin": "ピン",
     "coordinates": "座標",
     "element": "要素",
     "path": "パス",
-    "area": "領域",
-    "lightArea": "明るい領域",
-    "darkArea": "暗い領域",
+    "area": "注釈領域",
+    "lightArea": "明るい背景",
+    "darkArea": "暗い背景",
     "background": "背景色",
-    "centerColor": "中央色",
+    "centerColor": "中央の色",
     "note": "備考",
     "drawingAnnotations": "描画注釈",
     "arrow": "矢印",
     "rectangle": "矩形枠",
     "freehand": "フリーハンド",
-    "totalAnnotations": "合計 {} 件の注釈、それぞれ修正してください。",
+    "totalAnnotations": "件の注釈。各項目を確認してください。",
     "loadFailed": "スクリーンショットの読み込みに失敗しました"
   },
   "prompts": {
-    "fixTitle": "スクリーンショットの注釈で以下のUI問題を指摘しました。一つずつ修正してください：",
-    "fixReq1": "各問題を個別に修正し、見落とさないこと",
+    "fixTitle": "スクリーンショットの注釈が示す UI 問題を一つずつ修正してください：",
+    "fixReq1": "各問題を個別に扱い、見落とさないこと",
     "fixReq2": "注釈のない部分は変更しないこと",
-    "fixReq3": "修正後、変更内容をリストで教えてください",
-    "styleTitle": "以下の注釈はスタイルの問題（色、間隔、フォントサイズ、配置など）を指摘しています。修正してください：",
-    "styleReq1": "デザインシステムの変数やユーティリティクラスを優先し、マジックナンバーを使わないこと",
-    "styleReq2": "レスポンシブ対応を確保すること",
-    "styleReq3": "プロジェクトの既存スタイルと一貫性を保つこと",
-    "layoutTitle": "以下の注釈はレイアウトの問題（配置、整列、オーバーフロー、レスポンシブブレークポイントなど）を指摘しています。修正してください：",
+    "fixReq3": "完了後に変更内容を一覧にすること",
+    "styleTitle": "注釈が示す色、間隔、文字サイズ、配置などのスタイル問題を確認してください：",
+    "styleReq1": "デザインシステムの変数やユーティリティクラスを優先し、マジックナンバーを避けること",
+    "styleReq2": "異なる画面サイズで結果を確認すること",
+    "styleReq3": "プロジェクトの既存スタイルを保つこと",
+    "layoutTitle": "注釈が示す配置、整列、オーバーフロー、レスポンシブブレークポイントなどの問題を確認してください：",
     "layoutReq1": "Flexbox または CSS Grid でレイアウト問題を解決すること",
     "layoutReq2": "不要なラッパー要素を導入しないこと",
     "layoutReq3": "修正後のレスポンシブ動作を確認すること"

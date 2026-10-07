@@ -2,35 +2,35 @@
 
 ---
 
-# ComiRadar
+# BugShot
 
-[![CI](https://github.com/dreamnight16/anime-con-radar/actions/workflows/ci.yml/badge.svg)](https://github.com/dreamnight16/anime-con-radar/actions/workflows/ci.yml)
+[![CI](https://github.com/dreamnight16/bugshot/actions/workflows/ci.yml/badge.svg)](https://github.com/dreamnight16/bugshot/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**通用 UI 标注反馈工具。** 截屏 → 使用标注点、箭头、矩形和自由画笔进行标注 → 通过 MCP 协议导出给 AI。
+**UI 问题取证工具。** 截取画面，标出位置，补充备注，导出报告。
 
-## 为什么需要 ComiRadar？
+## 工作流程
 
-传统的 UI 反馈流程效率低下：截图通过聊天发送，文字描述模糊不清，来回沟通耗费大量时间。ComiRadar 用**可视化标注**取而代之，而且 AI 可以直接消费这些标注并执行修复。
+普通截图往往缺少坐标和上下文，复现问题时还要来回确认。BugShot 把截图、坐标、备注和 UI 元素信息放在同一份报告里。需要外部工具读取当前会话时，再启用可选的本地 MCP 服务。
 
 ## 功能特性
 
 - **3 种截取模式** — 全屏（`Ctrl+Shift+P`）、区域（`Ctrl+Shift+R`）、窗口（`Ctrl+Shift+W`）
 - **4 种标注工具** — 标注点、箭头、矩形框、自由画笔
-- **撤销/重做** — 50 步历史记录
+- **撤销/重做** — 保留 50 步历史记录
 - **缩放与平移** — 滚轮缩放，Shift+拖拽平移
-- **MCP 服务器** — AI 工具（Claude Code、Cursor、Windsurf）可通过 JSON-RPC + SSE 实时读取标注
-- **导出格式** — Markdown（含颜色分析 + 区域裁剪）、JSON、标注截图 PNG
-- **UIA 集成** — 自动检测每个标注点下的 Windows UI 元素名称、类型、类名和祖先树
+- **MCP 服务器** — 可选的本地 JSON-RPC + SSE 端点，供外部工具读取会话
+- **导出格式** — Markdown 报告、标注截图 PNG、JSON 会话数据
+- **UIA 集成** — 读取每个标注点对应的 Windows UI 元素名称、类型、类名和祖先树
 - **多语言** — English、简体中文、繁體中文、日本語
-- **系统托盘** — 常驻后台，随时可用
-- **自动更新** — 通过 GitHub Releases 自动保持最新版本
+- **系统托盘** — 放在托盘中继续运行
+- **更新** — 从 GitHub Releases 检查新版本
 
 ## 快速开始
 
 ### 下载安装
 
-从 [Releases](https://github.com/dreamnight16/anime-con-radar/releases) 下载最新安装包。
+从 [Releases](https://github.com/dreamnight16/bugshot/releases) 下载最新安装包。
 
 | 平台 | 安装包 |
 |------|--------|
@@ -41,8 +41,8 @@
 ### 从源码构建
 
 ```bash
-git clone https://github.com/dreamnight16/anime-con-radar
-cd anime-con-radar
+git clone https://github.com/dreamnight16/bugshot
+cd bugshot
 npm install
 npm run dev      # 开发模式
 npm run build    # 生产构建
@@ -78,13 +78,13 @@ npm run dist     # 打包安装程序
 
 ### 导出格式
 
-- **复制（Markdown）** — 完整的问题报告，含坐标、颜色分析、区域截图、UIA 元素树。可直接粘贴到 AI 对话中。
-- **截图（PNG）** — 所有标注合成到截图上。
-- **JSON** — 结构化数据供程序化处理。
+- **复制（Markdown）** — 包含坐标、备注、区域裁剪、颜色和 UIA 元素树。可粘贴到工单或代码审查工具中。
+- **截图（PNG）** — 保存合成标注后的图片。
+- **JSON** — 保存结构化会话数据。
 
 ## MCP 协议
 
-ComiRadar 在 `http://127.0.0.1:3846` 运行本地 MCP 兼容的 JSON-RPC 服务器。
+BugShot 可在 `http://127.0.0.1:3846` 运行本地 MCP 兼容的 JSON-RPC 服务器。
 
 ### 可用工具
 
@@ -93,17 +93,17 @@ ComiRadar 在 `http://127.0.0.1:3846` 运行本地 MCP 兼容的 JSON-RPC 服务
 | `list_annotations` | 列出所有活动标注点和绘图 |
 | `get_screenshot` | 获取当前截图元数据 |
 | `resolve_annotation` | 标记标注为已解决（从列表中移除） |
-| `get_context` | 获取结构化 Markdown 上下文供 AI 使用 |
+| `get_context` | 获取供人工或外部工具使用的结构化 Markdown 上下文 |
 
 ### 快速测试
 
 ```bash
-# ComiRadar
+# BugShot
 curl -s http://127.0.0.1:3846/mcp \
   -H "Content-Type: application/json" \
   -d '{"method":"tools/list","id":1}'
 
-# ComiRadar
+# BugShot
 curl -s http://127.0.0.1:3846/mcp \
   -H "Content-Type: application/json" \
   -d '{"method":"tools/call","id":2,"params":{"name":"list_annotations"}}'
