@@ -1,6 +1,6 @@
 {
   "name": "bugshot",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Capture and mark UI issues; export reports locally with optional MCP integration",
   "author": "DreamNight",
   "license": "MIT",

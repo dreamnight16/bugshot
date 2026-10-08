@@ -16,7 +16,10 @@ nsis:
   shortcutName: BugShot
 mac:
   target:
-    - dmg
+    - target: dmg
+      arch:
+        - x64
+        - arm64
 linux:
   target:
     - AppImage
