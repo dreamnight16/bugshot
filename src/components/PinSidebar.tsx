@@ -1,5 +1,5 @@
-import { useRef, useEffect } from 'react'
-import { Pin, ArrowRightFromLine, Square, Pen, Trash2, MousePointerClick } from 'lucide-react'
+import { useRef, useEffect, useState, useCallback } from 'react'
+import { ArrowRightFromLine, Pen, Square, Trash2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import type { Pin as PinType, Drawing } from '../types'
 
@@ -14,9 +14,10 @@ interface Props {
   onPinDelete: (id: string) => void
   onDrawingUpdate: (id: string, comment: string) => void
   onDrawingDelete: (id: string) => void
+  onEditStart: () => void
 }
 
-const typeIcons: Record<string, typeof Pin> = {
+const typeIcons: Record<string, typeof Square> = {
   arrow: ArrowRightFromLine,
   rectangle: Square,
   freehand: Pen,
@@ -25,10 +26,13 @@ const typeIcons: Record<string, typeof Pin> = {
 export default function PinSidebar({
   pins, drawings, selectedPinId, selectedDrawingId,
   onPinSelect, onDrawingSelect, onPinUpdate, onPinDelete,
-  onDrawingUpdate, onDrawingDelete,
+  onDrawingUpdate, onDrawingDelete, onEditStart,
 }: Props) {
   const { t } = useTranslation()
   const listRef = useRef<HTMLDivElement>(null)
+  const rowRefs = useRef<Record<string, HTMLButtonElement | null>>({})
+  const dirty = useRef(false)
+  const [openId, setOpenId] = useState<string | null>(null)
 
   const typeLabels: Record<string, string> = {
     arrow: t('export.arrow'),
@@ -36,184 +40,218 @@ export default function PinSidebar({
     freehand: t('export.freehand'),
   }
 
+  const total = pins.length + drawings.length
+  const isEmpty = total === 0
+
+  // Keep the mark selected on the canvas visible in the index.
   useEffect(() => {
     const el = listRef.current?.querySelector('[data-selected="true"]')
-    el?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+    if (!el) return
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    el.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' })
   }, [selectedPinId, selectedDrawingId])
 
-  const isEmpty = pins.length === 0 && drawings.length === 0
+  // Escape closes the open note and hands focus back to the row that opened it.
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLElement>) => {
+    if (e.key !== 'Escape' || !openId) return
+    e.stopPropagation()
+    rowRefs.current[openId]?.focus()
+    setOpenId(null)
+  }, [openId])
+
+  const toggle = (id: string) => {
+    dirty.current = false
+    setOpenId((current) => (current === id ? null : id))
+  }
+
+  const noteChange = (apply: (value: string) => void) => (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (!dirty.current) {
+      dirty.current = true
+      onEditStart()
+    }
+    apply(e.target.value)
+  }
+
+  const coord = (x: number, y: number) => `${Math.round(x)}, ${Math.round(y)}`
 
   return (
-    <div className="w-64 sm:w-72 shrink-0 bg-zinc-950/70 backdrop-blur-sm border-l border-zinc-800/40 flex flex-col overflow-hidden">
-      {/* Header */}
-      <div className="px-4 py-3.5 border-b border-zinc-800/40">
-        <div className="flex items-center justify-between">
-          <h2 className="text-[11px] font-semibold text-zinc-400 uppercase tracking-widest select-none">
-            {t('sidebar.title')}
-          </h2>
-          {!isEmpty && (
-            <span className="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full bg-zinc-800/80 text-[10px] font-semibold text-zinc-400 tabular-nums">
-              {pins.length + drawings.length}
-            </span>
-          )}
+    <aside
+      className="bs-index"
+      aria-label={t('index.title')}
+      onKeyDown={handleKeyDown}
+    >
+      <div className="bs-index__head">
+        <div>
+          <p className="bs-kicker">{t('index.title')}</p>
+          <p className="bs-index__hint">{t('index.hint')}</p>
         </div>
+        <span className="bs-index__count" aria-label={`${t('index.title')}: ${total}`}>{total}</span>
       </div>
 
-      {/* Content */}
-      <div ref={listRef} className="flex-1 overflow-y-auto">
+      <div ref={listRef} className="bs-index__list">
         {isEmpty ? (
-          <div className="flex flex-col items-center justify-center h-full px-6 text-center gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-zinc-900/80 flex items-center justify-center ring-1 ring-zinc-800/40">
-              <MousePointerClick className="w-6 h-6 text-zinc-600" strokeWidth={1.5} />
-            </div>
-            <p className="text-[12px] text-zinc-500 leading-relaxed whitespace-pre-line">
-              {t('sidebar.empty')}
-            </p>
+          <div className="bs-empty">
+            <p className="bs-kicker">{t('index.emptyTitle')}</p>
+            <ol className="bs-empty__steps">
+              <li>{t('index.emptyStep1')}</li>
+              <li>{t('index.emptyStep2')}</li>
+            </ol>
           </div>
         ) : (
-          <div>
-            {/* Pins */}
-            {pins.map((pin) => {
-              const isSelected = selectedPinId === pin.id
-              return (
-                <div
-                  key={pin.id}
-                  data-selected={isSelected}
-                  onClick={() => onPinSelect(pin.id)}
-                  className={`relative group px-4 py-3.5 cursor-pointer transition-all duration-200 ${
-                    isSelected
-                      ? 'bg-zinc-800/70'
-                      : 'hover:bg-zinc-900/50'
-                  }`}
-                  style={{
-                    borderBottom: '1px solid rgba(255,255,255,0.03)',
-                  }}
-                >
-                  {/* Left accent */}
-                  <div
-                    className="absolute left-0 top-1.5 bottom-1.5 w-[3px] rounded-r-full transition-all duration-300"
-                    style={{
-                      backgroundColor: pin.color,
-                      opacity: isSelected ? 1 : 0,
-                      transform: isSelected ? 'scaleY(1)' : 'scaleY(0.4)',
-                    }}
-                  />
-
-                  <div className="flex items-center gap-2.5 mb-2.5">
-                    <span
-                      className="inline-flex items-center justify-center w-[24px] h-[24px] rounded-full text-[10px] font-bold text-white shrink-0 select-none transition-all duration-200"
-                      style={{
-                        backgroundColor: pin.color,
-                        boxShadow: isSelected ? `0 0 14px ${pin.color}50` : `0 0 0px ${pin.color}00`,
-                        transform: isSelected ? 'scale(1.08)' : 'scale(1)',
-                      }}
-                    >
-                      {pin.number}
-                    </span>
-                    <span className="text-[11px] text-zinc-500 font-mono tracking-tight tabular-nums">
-                      {Math.round(pin.x)},{Math.round(pin.y)}
-                    </span>
-                    <button
-                      onClick={(e) => { e.stopPropagation(); onPinDelete(pin.id) }}
-                      className="ml-auto p-1 rounded-md opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-red-400 hover:bg-red-400/5 transition-all duration-150"
-                      title={t('sidebar.delete')}
-                    >
-                      <Trash2 className="w-3 h-3" strokeWidth={1.5} />
-                    </button>
+          <>
+            {pins.length > 0 && (
+              <>
+                {drawings.length > 0 && (
+                  <div className="bs-index__section">
+                    <p className="bs-kicker">{t('export.pin')}</p>
                   </div>
+                )}
+                {pins.map((pin) => {
+                  const isSelected = selectedPinId === pin.id
+                  const isOpen = openId === pin.id
+                  const elementName = pin.uia?.name?.trim()
+                  const elementType = pin.uia?.controlType?.trim()
+                  const hasComment = pin.comment.trim().length > 0
+                  const preview = hasComment
+                    ? pin.comment
+                    : (elementType || t('sidebar.pinCommentPlaceholder'))
+                  return (
+                    <div key={pin.id}>
+                      <button
+                        type="button"
+                        ref={(el) => { rowRefs.current[pin.id] = el }}
+                        data-selected={isSelected}
+                        aria-expanded={isOpen}
+                        aria-label={`${t('export.pin')} ${pin.number}, ${coord(pin.x, pin.y)}`}
+                        className="bs-row dn-focus"
+                        style={{ '--bs-field': pin.color } as React.CSSProperties}
+                        onClick={() => { onPinSelect(pin.id); toggle(pin.id) }}
+                      >
+                        <span className="bs-row__head">
+                          <span className="bs-row__badge">{pin.number}</span>
+                          <span className="bs-row__title">{elementName || t('export.pin')}</span>
+                          <span className="bs-row__coord">{coord(pin.x, pin.y)}</span>
+                        </span>
+                        <span className={`bs-row__preview${hasComment ? '' : ' bs-row__preview--empty'}`}>
+                          {preview}
+                        </span>
+                      </button>
 
-                  <textarea
-                    value={pin.comment}
-                    onChange={(e) => onPinUpdate(pin.id, e.target.value)}
-                    onClick={(e) => e.stopPropagation()}
-                    placeholder={t('sidebar.pinCommentPlaceholder')}
-                    className={`w-full bg-transparent rounded-lg px-2.5 py-2 text-[12px] leading-relaxed placeholder-zinc-600 resize-none outline-none transition-all duration-200 ${
-                      isSelected
-                        ? 'text-zinc-200 bg-zinc-900/80 ring-1 ring-zinc-700/40'
-                        : 'text-zinc-400 focus:text-zinc-300 focus:bg-zinc-900/40 focus:ring-1 focus:ring-zinc-800/40'
-                    }`}
-                    rows={2}
-                  />
-                </div>
-              )
-            })}
+                      {isOpen && (
+                        <div className="bs-row__details" style={{ '--bs-field': pin.color } as React.CSSProperties}>
+                          <label className="bs-visually-hidden" htmlFor={`note-${pin.id}`}>
+                            {t('index.noteLabel')}
+                          </label>
+                          <textarea
+                            id={`note-${pin.id}`}
+                            value={pin.comment}
+                            onChange={noteChange((value) => onPinUpdate(pin.id, value))}
+                            placeholder={t('sidebar.pinCommentPlaceholder')}
+                            className="bs-textarea"
+                            rows={3}
+                            autoFocus
+                          />
+                          <div className="bs-row__actions">
+                            <button
+                              type="button"
+                              className="bs-btn bs-icon-btn--danger dn-interactive dn-focus"
+                              onClick={() => { setOpenId(null); onPinDelete(pin.id) }}
+                            >
+                              <Trash2 aria-hidden="true" size={15} strokeWidth={1.5} />
+                              <span className="bs-btn__label">{t('sidebar.delete')}</span>
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
+              </>
+            )}
 
-            {/* Drawings section */}
             {drawings.length > 0 && (
-              <div>
+              <>
                 {pins.length > 0 && (
-                  <div className="px-4 py-2.5 border-b border-zinc-800/20 bg-zinc-950/40">
-                    <span className="text-[10px] font-semibold text-zinc-500 uppercase tracking-widest">
-                      {t('export.drawingAnnotations')}
-                    </span>
+                  <div className="bs-index__section">
+                    <p className="bs-kicker">{t('export.drawingAnnotations')}</p>
                   </div>
                 )}
                 {drawings.map((d) => {
                   const isSelected = selectedDrawingId === d.id
+                  const isOpen = openId === d.id
                   const Icon = typeIcons[d.type] || Pen
+                  const hasComment = (d.comment || '').trim().length > 0
                   return (
-                    <div
-                      key={d.id}
-                      data-selected={isSelected}
-                      onClick={() => onDrawingSelect(d.id)}
-                      className={`relative group px-4 py-3.5 cursor-pointer transition-all duration-200 ${
-                        isSelected
-                          ? 'bg-zinc-800/70'
-                          : 'hover:bg-zinc-900/50'
-                      }`}
-                      style={{
-                        borderBottom: '1px solid rgba(255,255,255,0.03)',
-                      }}
-                    >
-                      <div
-                        className="absolute left-0 top-1.5 bottom-1.5 w-[3px] rounded-r-full transition-all duration-300"
-                        style={{
-                          backgroundColor: d.color,
-                          opacity: isSelected ? 1 : 0,
-                          transform: isSelected ? 'scaleY(1)' : 'scaleY(0.4)',
-                        }}
-                      />
+                    <div key={d.id}>
+                      <button
+                        type="button"
+                        ref={(el) => { rowRefs.current[d.id] = el }}
+                        data-selected={isSelected}
+                        aria-expanded={isOpen}
+                        aria-label={typeLabels[d.type] || d.type}
+                        className="bs-row dn-focus"
+                        style={{ '--bs-field': d.color } as React.CSSProperties}
+                        onClick={() => { onDrawingSelect(d.id); toggle(d.id) }}
+                      >
+                        <span className="bs-row__head">
+                          <span className="bs-row__badge">
+                            <Icon aria-hidden="true" size={15} strokeWidth={2} />
+                          </span>
+                          <span className="bs-row__title">{typeLabels[d.type] || d.type}</span>
+                          <span className="bs-row__coord">{d.points.length} pt</span>
+                        </span>
+                        <span className={`bs-row__preview${hasComment ? '' : ' bs-row__preview--empty'}`}>
+                          {hasComment ? d.comment : t('sidebar.drawingNotePlaceholder')}
+                        </span>
+                      </button>
 
-                      <div className="flex items-center gap-2.5 mb-2.5">
-                        <div
-                          className="w-[24px] h-[24px] rounded-lg flex items-center justify-center shrink-0 transition-all duration-200"
-                          style={{
-                            backgroundColor: d.color + '15',
-                            transform: isSelected ? 'scale(1.08)' : 'scale(1)',
-                          }}
-                        >
-                          <Icon className="w-3.5 h-3.5" style={{ color: d.color }} strokeWidth={2} />
+                      {isOpen && (
+                        <div className="bs-row__details" style={{ '--bs-field': d.color } as React.CSSProperties}>
+                          <label className="bs-visually-hidden" htmlFor={`note-${d.id}`}>
+                            {t('index.noteLabel')}
+                          </label>
+                          <textarea
+                            id={`note-${d.id}`}
+                            value={d.comment || ''}
+                            onChange={noteChange((value) => onDrawingUpdate(d.id, value))}
+                            placeholder={t('sidebar.drawingNotePlaceholder')}
+                            className="bs-textarea"
+                            rows={3}
+                            autoFocus
+                          />
+                          <div className="bs-row__actions">
+                            <button
+                              type="button"
+                              className="bs-btn bs-icon-btn--danger dn-interactive dn-focus"
+                              onClick={() => { setOpenId(null); onDrawingDelete(d.id) }}
+                            >
+                              <Trash2 aria-hidden="true" size={15} strokeWidth={1.5} />
+                              <span className="bs-btn__label">{t('sidebar.delete')}</span>
+                            </button>
+                          </div>
                         </div>
-                        <span className="text-[11px] text-zinc-500">{typeLabels[d.type] || d.type}</span>
-                        <button
-                          onClick={(e) => { e.stopPropagation(); onDrawingDelete(d.id) }}
-                          className="ml-auto p-1 rounded-md opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-red-400 hover:bg-red-400/5 transition-all duration-150"
-                          title={t('sidebar.delete')}
-                        >
-                          <Trash2 className="w-3 h-3" strokeWidth={1.5} />
-                        </button>
-                      </div>
-
-                      <textarea
-                        value={d.comment || ''}
-                        onChange={(e) => onDrawingUpdate(d.id, e.target.value)}
-                        onClick={(e) => e.stopPropagation()}
-                        placeholder={t('sidebar.drawingNotePlaceholder')}
-                        className={`w-full bg-transparent rounded-lg px-2.5 py-2 text-[12px] leading-relaxed placeholder-zinc-600 resize-none outline-none transition-all duration-200 ${
-                          isSelected
-                            ? 'text-zinc-200 bg-zinc-900/80 ring-1 ring-zinc-700/40'
-                            : 'text-zinc-400 focus:text-zinc-300 focus:bg-zinc-900/40 focus:ring-1 focus:ring-zinc-800/40'
-                        }`}
-                        rows={2}
-                      />
+                      )}
                     </div>
                   )
                 })}
-              </div>
+              </>
             )}
-          </div>
+          </>
         )}
       </div>
-    </div>
+
+      {!isEmpty && (
+        <div className="bs-index__foot">
+          <div className="bs-index__stat">
+            <span className="bs-index__stat-value">{pins.length}</span>
+            <span className="bs-kicker">{t('session.pins')}</span>
+          </div>
+          <div className="bs-index__stat">
+            <span className="bs-index__stat-value">{drawings.length}</span>
+            <span className="bs-kicker">{t('session.drawings')}</span>
+          </div>
+        </div>
+      )}
+    </aside>
   )
 }

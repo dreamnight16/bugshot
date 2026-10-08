@@ -8,6 +8,23 @@
     "shortcutHint": "P Annotate · A Arrow · R Rect · F Freehand",
     "startHint": "Use a shortcut or choose a capture mode"
   },
+  "capture": {
+    "kicker": "SCREEN CAPTURE",
+    "stepsTitle": "How it works",
+    "step1": "Capture the screen, a region, or a window",
+    "step2": "Mark the problem and describe it",
+    "step3": "Copy the report, or export PNG and JSON",
+    "modesLabel": "Capture modes",
+    "fullscreenHint": "The whole primary display",
+    "regionHint": "Drag to pick an area",
+    "windowHint": "Another application's window",
+    "factsTitle": "In this build",
+    "factUia": "Reads the Windows UI Automation element under each pin",
+    "factMcp": "Local MCP endpoint 127.0.0.1:3846, loopback only",
+    "factExport": "Exports a Markdown report, an annotated PNG, and a JSON session",
+    "factHistory": "Undo history holds 50 steps",
+    "staticNote": "Static reference from the README and source. BugShot reports live state only for the open session."
+  },
   "toolbar": {
     "pin": "Pin",
     "arrow": "Arrow",
@@ -22,7 +39,32 @@
     "clearAll": "Clear marks",
     "exporting": "Preparing report...",
     "exported": "Sent to the desktop app",
-    "exportFailed": "Export failed"
+    "exportFailed": "Export failed",
+    "toolsLabel": "Annotation tools"
+  },
+  "session": {
+    "window": "Window",
+    "capturedAt": "Captured",
+    "untitled": "Untitled capture",
+    "image": "Image",
+    "tool": "Tool",
+    "pins": "Pins",
+    "drawings": "Drawings",
+    "zoomLabel": "Zoom",
+    "screenshotAlt": "Captured screenshot"
+  },
+  "zoom": {
+    "in": "Zoom in",
+    "out": "Zoom out",
+    "fit": "Reset view to 100%"
+  },
+  "index": {
+    "title": "Annotations",
+    "hint": "Select a mark to edit its note",
+    "emptyTitle": "No marks yet",
+    "emptyStep1": "Click the screenshot to place a pin",
+    "emptyStep2": "Drag a pin to move it, or use the arrow keys",
+    "noteLabel": "Note"
   },
   "sidebar": {
     "empty": "Click the screenshot to add a mark\nDrag a mark to move it",
@@ -41,6 +83,10 @@
     "describeHere": "Describe the problem...",
     "deleteAnnotation": "Delete annotation",
     "close": "Close"
+  },
+  "windowControls": {
+    "minimize": "Minimize",
+    "close": "Hide to tray"
   },
   "export": {
     "feedbackTitle": "UI issue report",
@@ -78,10 +124,20 @@
     "layoutReq2": "Don't introduce unnecessary wrapper elements",
     "layoutReq3": "Verify responsive behavior after fixes"
   },
+  "a11y": {
+    "nudgeHint": "Arrow keys move it; hold Shift for 10 px"
+  },
+  "error": {
+    "kicker": "BugShot",
+    "title": "Something went wrong",
+    "unknown": "Unknown error",
+    "reload": "Reload"
+  },
   "language": {
     "en": "English",
     "zh-CN": "简体中文",
     "zh-TW": "繁體中文",
-    "ja": "日本語"
+    "ja": "日本語",
+    "label": "Language"
   }
 }

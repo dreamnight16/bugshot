@@ -1,11 +1,6 @@
 import { useState, useCallback } from 'react'
 import type { Drawing } from '../types'
-
-const DRAWING_COLORS: Record<string, string> = {
-  arrow: '#ef4444',
-  rectangle: '#3b82f6',
-  freehand: '#22c55e'
-}
+import { DRAWING_COLORS } from '../constants'
 
 export function useDrawings() {
   const [drawings, setDrawings] = useState<Drawing[]>([])

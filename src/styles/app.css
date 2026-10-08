@@ -1,0 +1,1127 @@
+/* BugShot — product stylesheet built on the DreamNight Design Language.
+ *
+ * Consumes the DNDL implementation vendored in public/vendor/dndl/ (tokens.css,
+ * materials.css, motion.css). Brand values are never re-declared here: every
+ * colour, font, curve, elevation and geometry value resolves to a --dn-* token.
+ * Only product-local measurements (panel widths, paddings) are defined locally.
+ */
+
+:root {
+  /* Product-local layout measurements — not brand tokens. */
+  --bs-bar-h: 56px;
+  --bs-index-w: 320px;
+  --bs-gap: 16px;
+  --bs-gap-sm: 8px;
+  --bs-rule: 1px solid var(--dn-divider);
+}
+
+/* ------------------------------------------------------------------ shell */
+
+/* Minimal reset. The previous shell relied on Tailwind preflight for this. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ol,
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--dn-canvas);
+  color: var(--dn-text-primary);
+  font-family: var(--dn-font);
+  font-size: var(--dn-size-body);
+  font-weight: var(--dn-weight-body);
+  line-height: var(--dn-leading-body);
+  overflow: hidden;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Text entry must stay selectable even though the shell is not. */
+input,
+textarea {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+button,
+input,
+textarea,
+select {
+  border-radius: var(--dn-radius);
+  font: inherit;
+  color: inherit;
+}
+
+.drag {
+  -webkit-app-region: drag;
+}
+
+.no-drag,
+.drag button,
+.drag a,
+.drag input,
+.drag textarea,
+.drag select,
+.drag [role='button'] {
+  -webkit-app-region: no-drag;
+}
+
+.bs-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------- type primitives */
+
+.bs-kicker {
+  margin: 0;
+  font-size: var(--dn-size-kicker);
+  font-weight: var(--dn-weight-kicker);
+  letter-spacing: var(--dn-tracking-kicker);
+  text-transform: uppercase;
+  color: var(--dn-text-secondary);
+}
+
+.bs-display {
+  margin: 0;
+  font-family: var(--dn-font-display);
+  font-weight: var(--dn-weight-display);
+  font-size: var(--dn-size-display);
+  line-height: var(--dn-leading-display);
+  letter-spacing: -0.02em;
+  color: var(--dn-text-primary);
+  overflow-wrap: anywhere;
+}
+
+.bs-lead {
+  margin: 0;
+  max-width: 36ch;
+  font-size: 1rem;
+  line-height: var(--dn-leading-body);
+  color: var(--dn-text-secondary);
+}
+
+/* ------------------------------------------------- capture screen (IA: launch) */
+
+.bs-capture {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--dn-canvas);
+}
+
+.bs-capture__bar {
+  flex: none;
+  height: var(--bs-bar-h);
+  display: flex;
+  align-items: center;
+  gap: var(--bs-gap-sm);
+  padding: 0 8px 0 20px;
+  background: var(--dn-surface);
+  border-bottom: var(--bs-rule);
+  line-height: 1.3;
+}
+
+.bs-capture__body {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+}
+
+.bs-capture__intro {
+  min-width: 0;
+  padding: 40px clamp(24px, 4vw, 64px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 24px;
+}
+
+.bs-capture__modes {
+  display: grid;
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+  background: var(--dn-canvas);
+  border-left: var(--bs-rule);
+  min-height: 0;
+}
+
+.bs-capture__facts {
+  flex: none;
+  padding: 16px clamp(24px, 4vw, 64px) 18px;
+  background: var(--dn-surface);
+  border-top: var(--bs-rule);
+}
+
+/* Workflow steps — the product's real three-step loop. */
+.bs-steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-top: var(--bs-rule);
+}
+
+.bs-steps__item {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: var(--bs-rule);
+}
+
+.bs-steps__n {
+  flex: none;
+  min-width: 2ch;
+  font-family: var(--dn-font-display);
+  font-weight: var(--dn-weight-display);
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--dn-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.bs-steps__text {
+  font-size: 0.9375rem;
+  color: var(--dn-text-secondary);
+}
+
+/* Capture modes as full-bleed brand colour fields. */
+.bs-mode {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  min-height: var(--dn-target-min);
+  padding: 20px clamp(20px, 3vw, 36px);
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+  color: var(--dn-text-on-color);
+  background: var(--dn-teal);
+}
+
+.bs-mode--teal { background: var(--dn-teal); }
+.bs-mode--cyan { background: var(--dn-cyan); }
+.bs-mode--emerald { background: var(--dn-emerald); }
+
+.bs-mode__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.bs-mode__index {
+  font-size: var(--dn-size-kicker);
+  font-weight: var(--dn-weight-kicker);
+  letter-spacing: var(--dn-tracking-kicker);
+  font-variant-numeric: tabular-nums;
+}
+
+.bs-mode__name {
+  font-family: var(--dn-font-display);
+  font-weight: var(--dn-weight-display);
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  line-height: 1.15;
+}
+
+.bs-mode__hint {
+  font-size: 0.875rem;
+}
+
+.bs-mode__keys {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.bs-key {
+  font-family: var(--dn-font);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border: 1px solid var(--dn-text-on-color);
+  font-size: 0.6875rem;
+  font-weight: var(--dn-weight-kicker);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Static capability list — explicitly not live status. */
+.bs-facts {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 40px;
+}
+
+.bs-facts__item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.bs-facts__value {
+  font-size: 0.875rem;
+  color: var(--dn-text-primary);
+}
+
+.bs-facts__note {
+  margin: 10px 0 0;
+  font-size: 0.75rem;
+  color: var(--dn-text-secondary);
+}
+
+/* ------------------------------------------------------ workspace top bar */
+
+.bs-app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.bs-app__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+}
+
+.bs-bar {
+  flex: none;
+  height: var(--bs-bar-h);
+  display: flex;
+  align-items: center;
+  gap: var(--bs-gap-sm);
+  padding: 0 8px 0 16px;
+  background: var(--dn-surface);
+  border-bottom: var(--bs-rule);
+  min-width: 0;
+  line-height: 1.3;
+}
+
+.bs-window-controls {
+  flex: none;
+  display: flex;
+}
+
+.bs-bar__brand {
+  flex: none;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--dn-text-primary);
+}
+
+.bs-bar__session {
+  flex: 0 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+  max-width: 34ch;
+  padding-left: 14px;
+  border-left: var(--bs-rule);
+}
+
+.bs-bar__session-name {
+  font-size: 0.8125rem;
+  color: var(--dn-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bs-bar__session-time {
+  flex: none;
+  font-size: 0.75rem;
+  color: var(--dn-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.bs-bar__divider {
+  flex: none;
+  width: 1px;
+  height: 24px;
+  background: var(--dn-divider);
+}
+
+.bs-bar__spacer {
+  flex: 1 1 auto;
+  min-width: 8px;
+}
+
+/* ---------------------------------------------------------------- controls */
+
+.bs-tools {
+  flex: none;
+  display: flex;
+  gap: 4px;
+}
+
+.bs-tool {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  border: 1px solid var(--dn-control-border);
+  background: var(--dn-surface);
+  color: var(--dn-text-primary);
+  cursor: pointer;
+}
+
+.bs-tool__key {
+  font-size: 0.5625rem;
+  font-weight: var(--dn-weight-kicker);
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
+/* Selected state is carried by fill + rule + ink, not hue alone. */
+.bs-tool[aria-pressed='true'] {
+  border-color: var(--bs-field);
+  border-bottom: 3px solid var(--dn-text-on-color);
+  background: var(--bs-field);
+  color: var(--dn-text-on-color);
+}
+
+.bs-tool--pin { --bs-field: var(--dn-crimson); }
+.bs-tool--arrow { --bs-field: var(--dn-cyan); }
+.bs-tool--rectangle { --bs-field: var(--dn-emerald); }
+.bs-tool--freehand { --bs-field: var(--dn-violet); }
+
+.bs-btn {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--dn-control-border);
+  background: var(--dn-surface);
+  color: var(--dn-text-primary);
+  font-size: 0.8125rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.bs-btn--primary {
+  border-color: var(--dn-teal);
+  background: var(--dn-teal);
+  color: var(--dn-text-on-color);
+  font-weight: 600;
+}
+
+.bs-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.bs-btn:disabled:hover {
+  transform: none;
+  box-shadow: var(--dn-shadow-1);
+}
+
+.bs-icon-btn {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--dn-text-primary);
+  cursor: pointer;
+}
+
+.bs-icon-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.bs-icon-btn:disabled:hover {
+  transform: none;
+  box-shadow: var(--dn-shadow-1);
+}
+
+.bs-icon-btn--danger:hover {
+  color: var(--dn-crimson);
+}
+
+/* Export feedback: text carries the meaning, the square only supports it. */
+.bs-status {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 20ch;
+  font-size: 0.75rem;
+  color: var(--dn-text-secondary);
+  overflow: hidden;
+}
+
+.bs-status__mark {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border: 1px solid currentColor;
+}
+
+.bs-status--working { color: var(--dn-text-secondary); }
+.bs-status--working .bs-status__mark { border-color: var(--dn-amber); background: var(--dn-amber); }
+.bs-status--success { color: var(--dn-text-secondary); }
+.bs-status--success .bs-status__mark { border-color: var(--dn-emerald); background: var(--dn-emerald); }
+.bs-status--error { color: var(--dn-text-primary); }
+.bs-status--error .bs-status__mark { border-color: var(--dn-crimson); background: var(--dn-crimson); }
+
+.bs-status__text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Language menu — an overlay, so it may use acrylic. */
+.bs-lang {
+  position: relative;
+  flex: none;
+}
+
+.bs-lang__menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  z-index: var(--dn-z-panel);
+  min-width: 168px;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+.bs-lang__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: var(--dn-target-min);
+  padding: 0 10px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  font-size: 0.8125rem;
+  color: var(--dn-text-primary);
+  cursor: pointer;
+}
+
+.bs-lang__item[aria-checked='true'] {
+  font-weight: 600;
+  box-shadow: inset 3px 0 0 0 var(--dn-teal);
+}
+
+/* ------------------------------------------------------------------ stage */
+
+.bs-stage {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--dn-ink-primary);
+}
+
+/* Live session readout sits above the canvas so it never covers the screenshot.
+   On the Ink field every glyph uses --dn-text-on-ink and is separated by type. */
+.bs-stage__info {
+  flex: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 28px;
+  padding: 10px 16px;
+  color: var(--dn-text-on-ink);
+  line-height: 1.3;
+}
+
+.bs-info__pair {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.bs-info__label {
+  font-size: var(--dn-size-kicker);
+  font-weight: var(--dn-weight-kicker);
+  letter-spacing: var(--dn-tracking-kicker);
+  text-transform: uppercase;
+}
+
+.bs-info__value {
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.bs-stage__canvas {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  cursor: none;
+}
+
+.bs-stage--panning .bs-stage__canvas {
+  cursor: grabbing;
+}
+
+/* The zoom dock floats over the screenshot, so it keeps a real pointer. */
+.bs-zoom {
+  cursor: auto;
+}
+
+.bs-zoom button {
+  cursor: pointer;
+}
+
+.bs-stage__viewport {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: top left;
+}
+
+.bs-drawlayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.bs-stage__image {
+  display: block;
+  max-width: none;
+  border-radius: var(--dn-radius);
+  box-shadow: var(--dn-shadow-3);
+}
+
+/* Zoom dock — floats over the screenshot, so acrylic is appropriate. */
+.bs-zoom {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  z-index: var(--dn-z-floating);
+  display: flex;
+  align-items: center;
+  padding: 0 2px;
+}
+
+.bs-zoom__level {
+  min-width: 64px;
+  height: 44px;
+  padding: 0 8px;
+  border: 0;
+  border-left: var(--bs-rule);
+  border-right: var(--bs-rule);
+  background: transparent;
+  color: var(--dn-text-primary);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+
+.bs-zoom .bs-icon-btn {
+  color: var(--dn-text-primary);
+}
+
+/* Pointer cursor drawn by the app while a tool is armed. */
+.bs-cursor {
+  position: absolute;
+  z-index: var(--dn-z-modal);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.bs-cursor__ring {
+  display: block;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--dn-surface);
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--dn-ink-primary);
+}
+
+.bs-cursor__dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  transform: translate(-50%, -50%);
+  background: var(--dn-surface);
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--dn-ink-primary);
+}
+
+/* ----------------------------------------------------------- pin markers */
+
+.bs-pin {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--dn-surface);
+  border-radius: 50%;
+  background: var(--bs-field);
+  color: var(--dn-text-on-color);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  cursor: grab;
+  box-shadow: var(--dn-shadow-2);
+  transition: transform var(--dn-duration-expand) var(--dn-ease-snap),
+    box-shadow var(--dn-duration-expand) var(--dn-ease-in);
+}
+
+.bs-pin[data-dragging='true'] {
+  cursor: grabbing;
+  z-index: var(--dn-z-panel);
+  transform: scale(1.1);
+}
+
+/* Selection ring is two-tone so it survives any screenshot underneath. */
+.bs-pin[aria-current='true'] {
+  box-shadow: 0 0 0 3px var(--bs-field), 0 0 0 5px var(--dn-surface),
+    var(--dn-shadow-2);
+}
+
+.bs-pin:focus-visible {
+  outline: 2px solid var(--dn-surface);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .bs-pin:hover {
+    transform: translateY(var(--dn-hover-lift));
+  }
+}
+
+/* ------------------------------------------------------- comment popover */
+
+.bs-popover {
+  position: absolute;
+  z-index: var(--dn-z-panel);
+  width: 288px;
+  transform-origin: top left;
+  line-height: 1.4;
+}
+
+.bs-popover__body {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.bs-popover__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 4px 4px 12px;
+  border-bottom: var(--bs-rule);
+}
+
+.bs-popover__badge {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bs-field);
+  color: var(--dn-text-on-color);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.bs-popover__coord {
+  font-size: 0.75rem;
+  color: var(--dn-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.bs-popover__spacer {
+  flex: 1 1 auto;
+}
+
+.bs-popover .bs-icon-btn {
+  width: 36px;
+  height: 36px;
+}
+
+.bs-textarea {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--dn-control-border);
+  background: var(--dn-surface);
+  color: var(--dn-text-primary);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  resize: none;
+}
+
+.bs-textarea::placeholder {
+  color: var(--dn-text-secondary);
+  opacity: 1;
+}
+
+.bs-popover .bs-textarea {
+  border: 0;
+  border-top: var(--bs-rule);
+}
+
+/* ------------------------------------------------------- annotation index */
+
+.bs-index {
+  flex: none;
+  width: var(--bs-index-w);
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--dn-surface);
+  border-left: var(--bs-rule);
+}
+
+.bs-index__head {
+  flex: none;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: var(--bs-rule);
+}
+
+.bs-index__count {
+  font-family: var(--dn-font-display);
+  font-weight: var(--dn-weight-display);
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--dn-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.bs-index__hint {
+  margin: 8px 0 0;
+  font-size: 0.75rem;
+  color: var(--dn-text-secondary);
+}
+
+.bs-index__list {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.bs-index__section {
+  padding: 8px 16px;
+  background: var(--dn-canvas);
+  border-bottom: var(--bs-rule);
+}
+
+.bs-index__foot {
+  flex: none;
+  display: flex;
+  gap: 20px;
+  padding: 12px 16px;
+  border-top: var(--bs-rule);
+  background: var(--dn-canvas);
+}
+
+.bs-index__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.bs-index__stat-value {
+  font-size: 1.125rem;
+  font-weight: var(--dn-weight-display);
+  color: var(--dn-text-primary);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+.bs-row {
+  display: block;
+  width: 100%;
+  padding: 12px 16px;
+  border: 0;
+  border-bottom: var(--bs-rule);
+  background: var(--dn-surface);
+  text-align: left;
+  cursor: pointer;
+}
+
+.bs-row[aria-expanded='true'] {
+  border-bottom: 0;
+  background: var(--dn-canvas);
+  box-shadow: inset 3px 0 0 0 var(--bs-field);
+}
+
+.bs-row__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bs-row__badge {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bs-field);
+  color: var(--dn-text-on-color);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.bs-row[aria-expanded='true'] .bs-row__title {
+  font-weight: 600;
+}
+
+.bs-row__title {
+  font-size: 0.8125rem;
+  color: var(--dn-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bs-row__coord {
+  margin-left: auto;
+  flex: none;
+  font-size: 0.75rem;
+  color: var(--dn-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.bs-row__preview {
+  margin: 8px 0 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--dn-text-primary);
+  overflow-wrap: anywhere;
+}
+
+.bs-row__preview--empty {
+  color: var(--dn-text-secondary);
+}
+
+.bs-row__details {
+  padding: 10px 16px 14px;
+  background: var(--dn-canvas);
+  border-bottom: var(--bs-rule);
+  box-shadow: inset 3px 0 0 0 var(--bs-field);
+}
+
+.bs-row__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.bs-empty {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 28px 20px;
+}
+
+.bs-empty__steps {
+  margin: 0;
+  padding-left: 1.1em;
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  color: var(--dn-text-secondary);
+}
+
+/* --------------------------------------------------- fallback / boundary */
+
+.bs-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 16px;
+  height: 100%;
+  padding: 0 clamp(24px, 8vw, 96px);
+  background: var(--dn-canvas);
+}
+
+.bs-fallback__detail {
+  margin: 0;
+  max-width: 60ch;
+  font-size: 0.8125rem;
+  color: var(--dn-text-primary);
+  overflow-wrap: anywhere;
+}
+
+/* --------------------------------------------------------- responsive */
+
+@media (max-width: 1320px) {
+  .bs-bar__session {
+    display: none;
+  }
+}
+
+@media (max-width: 1040px) {
+  :root {
+    --bs-index-w: 280px;
+  }
+
+  .bs-bar__brand {
+    display: none;
+  }
+
+  .bs-btn__label {
+    display: none;
+  }
+}
+
+@media (max-width: 940px) {
+  .bs-tool {
+    width: 40px;
+  }
+
+  .bs-tool__key {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .bs-capture__body {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    overflow-y: auto;
+  }
+
+  .bs-capture__modes {
+    border-left: 0;
+    border-top: var(--bs-rule);
+  }
+}
+
+@media (max-height: 720px) {
+  .bs-capture__intro {
+    gap: 16px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+
+  .bs-mode {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .bs-mode__name {
+    font-size: 1.375rem;
+  }
+}
+
+/* ----------------------------------------------------- preference guards */
+
+@media (prefers-reduced-motion: reduce) {
+  .bs-pin {
+    transition: none;
+  }
+
+  .bs-pin[data-dragging='true'],
+  .bs-pin:hover {
+    transform: none;
+  }
+}
+
+@media (forced-colors: active) {
+  /* Controls keep system borders; brand fields keep the ink that was validated
+     against them. Focus always falls back to the system Highlight. */
+  .bs-tool,
+  .bs-btn,
+  .bs-icon-btn,
+  .bs-textarea,
+  .bs-row__details,
+  .bs-status__mark {
+    border-color: CanvasText;
+  }
+
+  .bs-mode,
+  .bs-pin,
+  .bs-tool[aria-pressed='true'],
+  .bs-btn--primary,
+  .bs-row__badge,
+  .bs-popover__badge {
+    forced-color-adjust: none;
+  }
+
+  .bs-pin:focus-visible,
+  .bs-zoom__level:focus-visible {
+    outline-color: Highlight;
+  }
+
+  .bs-stage {
+    background: Canvas;
+  }
+
+  .bs-stage__image {
+    border: 1px solid CanvasText;
+  }
+}

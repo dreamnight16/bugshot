@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Globe } from 'lucide-react'
 import { setLanguage } from '../i18n'
@@ -14,8 +14,16 @@ export default function LanguageSwitcher() {
   const { t, i18n } = useTranslation()
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<HTMLButtonElement>(null)
+  const label = t('language.label')
+
+  const close = useCallback(() => {
+    setOpen(false)
+    triggerRef.current?.focus()
+  }, [])
 
   useEffect(() => {
+    if (!open) return
     const handler = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
         setOpen(false)
@@ -23,30 +31,44 @@ export default function LanguageSwitcher() {
     }
     document.addEventListener('mousedown', handler)
     return () => document.removeEventListener('mousedown', handler)
-  }, [])
+  }, [open])
 
   return (
-    <div ref={ref} className="relative no-drag">
+    <div
+      ref={ref}
+      className="bs-lang no-drag"
+      onKeyDown={(e) => {
+        if (e.key === 'Escape' && open) {
+          e.stopPropagation()
+          close()
+        }
+      }}
+    >
       <button
+        ref={triggerRef}
+        type="button"
         onClick={() => setOpen(!open)}
-        className="p-1.5 rounded-md text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800 transition-colors"
-        title={t('language.' + i18n.language) ?? 'Language'}
+        className="bs-icon-btn dn-focus"
+        aria-haspopup="true"
+        aria-expanded={open}
+        aria-label={label}
+        title={label}
       >
-        <Globe className="w-3.5 h-3.5" />
+        <Globe aria-hidden="true" size={16} strokeWidth={1.75} />
       </button>
       {open && (
-        <div className="absolute right-0 top-full mt-1 bg-zinc-900 border border-zinc-800 rounded-lg shadow-xl overflow-hidden z-50 min-w-[120px]">
+        <div className="bs-lang__menu dn-acrylic dn-elevation-3" role="menu" aria-label={label}>
           {LANGUAGES.map(({ code, labelKey }) => (
             <button
               key={code}
+              type="button"
+              role="menuitemradio"
+              aria-checked={i18n.language === code}
               onClick={() => { setLanguage(code); setOpen(false) }}
-              className={`w-full text-left px-3 py-2 text-xs transition-colors ${
-                i18n.language === code
-                  ? 'bg-zinc-800 text-zinc-100'
-                  : 'text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200'
-              }`}
+              className="bs-lang__item dn-focus"
             >
-              {t(labelKey)}
+              <span>{t(labelKey)}</span>
+              {i18n.language === code && <span aria-hidden="true">{'\u2713'}</span>}
             </button>
           ))}
         </div>

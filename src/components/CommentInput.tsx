@@ -1,119 +1,132 @@
-import { useState, useRef, useEffect, useLayoutEffect } from 'react'
+import { useRef, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Trash2, X } from 'lucide-react'
 import type { Pin } from '../types'
 
 interface Props {
   pin: Pin
+  /** Natural width of the screenshot, used to keep the popover inside the image. */
+  imageWidth: number
+  /** Current zoom, so the popover keeps a constant on-screen size. */
+  scale: number
   onUpdate: (comment: string) => void
+  /** Records one undo step for the whole editing gesture. */
+  onEditStart: () => void
   onDelete: () => void
   onClose: () => void
 }
 
-export default function CommentInput({ pin, onUpdate, onDelete, onClose }: Props) {
-  const { t } = useTranslation()
-  const [comment, setComment] = useState(pin.comment)
-  const [entered, setEntered] = useState(false)
-  const inputRef = useRef<HTMLTextAreaElement>(null)
+const WIDTH = 288
+const GAP = 24
 
-  useEffect(() => {
-    setComment(pin.comment)
-  }, [pin.id, pin.comment])
+export default function CommentInput({
+  pin, imageWidth, scale, onUpdate, onEditStart, onDelete, onClose,
+}: Props) {
+  const { t } = useTranslation()
+  const popRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLTextAreaElement>(null)
+  const dirty = useRef(false)
+  // Captured before focus moves into the popover, so Escape can hand it back.
+  const restoreRef = useRef<HTMLElement | null>(document.activeElement as HTMLElement | null)
 
   useLayoutEffect(() => {
-    requestAnimationFrame(() => setEntered(true))
     inputRef.current?.focus()
   }, [])
 
-  const handleChange = (value: string) => {
-    setComment(value)
-    onUpdate(value)
+  useEffect(() => {
+    return () => {
+      restoreRef.current?.focus?.()
+    }
+  }, [])
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Escape') {
+      e.stopPropagation()
+      onClose()
+      return
+    }
+    if (e.key !== 'Tab') return
+
+    const nodes = popRef.current?.querySelectorAll<HTMLElement>(
+      'textarea, button, input, select, a[href], [tabindex]:not([tabindex="-1"])',
+    )
+    const list = nodes ? Array.from(nodes).filter((n) => !n.hasAttribute('disabled')) : []
+    if (list.length === 0) return
+    const first = list[0]
+    const last = list[list.length - 1]
+    if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault()
+      first.focus()
+    } else if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault()
+      last.focus()
+    }
   }
 
-  const popupX = pin.x + 24
-  const popupY = pin.y - 12
+  // Flip to the other side of the pin when the popover would leave the image.
+  const fitsRight = imageWidth === 0 || pin.x + GAP + WIDTH <= imageWidth
+  const left = fitsRight ? pin.x + GAP : Math.max(0, pin.x - GAP - WIDTH)
+  const top = Math.max(0, pin.y - 12)
+  const dialogLabel = `${t('export.pin')} ${pin.number}`
 
   return (
     <div
-      className="absolute z-50"
-      style={{ left: popupX, top: popupY }}
+      ref={popRef}
+      className="bs-popover"
+      role="dialog"
+      aria-label={dialogLabel}
+      style={{ left, top, transform: `scale(${1 / scale})` }}
       onClick={(e) => e.stopPropagation()}
+      onKeyDown={handleKeyDown}
     >
-      {/* Connector line */}
-      <svg
-        className="absolute"
-        style={{
-          left: -14,
-          top: 16,
-          width: 14,
-          height: 2,
-          overflow: 'visible',
-        }}
-      >
-        <line
-          x1={0} y1={0} x2={14} y2={0}
-          stroke={pin.color}
-          strokeWidth={1.5}
-          strokeDasharray="3 2"
-          opacity={entered ? 0.6 : 0}
-          style={{ transition: 'opacity 0.3s ease-out 0.1s' }}
-        />
-      </svg>
-
-      {/* Popup card */}
-      <div
-        className="relative rounded-xl overflow-hidden transition-all duration-300 shadow-2xl shadow-black/60"
-        style={{
-          opacity: entered ? 1 : 0,
-          transform: entered ? 'translateY(0) scale(1)' : 'translateY(10px) scale(0.95)',
-          transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-        }}
-      >
-        {/* Colored edge glow */}
+      <div className="dn-rise">
         <div
-          className="absolute inset-0 rounded-xl pointer-events-none"
-          style={{
-            boxShadow: `inset 0 0 0 1px ${pin.color}20, 0 0 20px ${pin.color}08`,
-          }}
-        />
-
-        {/* Card body */}
-        <div className="relative bg-zinc-900/98 backdrop-blur-xl border border-zinc-700/50 w-64">
-          {/* Header */}
-          <div className="flex items-center gap-2 px-3 py-2.5 border-b border-zinc-800/40">
+          className="bs-popover__body dn-acrylic dn-elevation-3"
+          style={{ borderLeft: `4px solid ${pin.color}` }}
+        >
+          <div className="bs-popover__head">
             <span
-              className="w-[22px] h-[22px] rounded-full flex items-center justify-center text-[10px] font-bold text-white shrink-0"
-              style={{ backgroundColor: pin.color, boxShadow: `0 0 8px ${pin.color}35` }}
+              className="bs-popover__badge"
+              style={{ backgroundColor: pin.color }}
             >
               {pin.number}
             </span>
-            <span className="text-[11px] text-zinc-500 font-mono tracking-tight">
+            <span className="bs-popover__coord">
               {Math.round(pin.x)},{Math.round(pin.y)}
             </span>
-            <div className="flex-1" />
+            <span className="bs-popover__spacer" />
             <button
+              type="button"
               onClick={onDelete}
-              className="p-1.5 rounded-md text-zinc-500 hover:text-red-400 hover:bg-red-400/8 transition-colors duration-150"
+              className="bs-icon-btn bs-icon-btn--danger dn-focus"
               title={t('comment.deleteAnnotation')}
+              aria-label={t('comment.deleteAnnotation')}
             >
-              <Trash2 className="w-3.5 h-3.5" strokeWidth={1.5} />
+              <Trash2 aria-hidden="true" size={16} strokeWidth={1.5} />
             </button>
             <button
+              type="button"
               onClick={onClose}
-              className="p-1.5 rounded-md text-zinc-500 hover:text-zinc-200 hover:bg-zinc-800/60 transition-colors duration-150"
+              className="bs-icon-btn dn-focus"
               title={t('comment.close')}
+              aria-label={t('comment.close')}
             >
-              <X className="w-3.5 h-3.5" strokeWidth={1.5} />
+              <X aria-hidden="true" size={16} strokeWidth={1.5} />
             </button>
           </div>
 
-          {/* Textarea */}
           <textarea
             ref={inputRef}
-            value={comment}
-            onChange={(e) => handleChange(e.target.value)}
+            value={pin.comment}
+            onChange={(e) => {
+              if (!dirty.current) {
+                dirty.current = true
+                onEditStart()
+              }
+              onUpdate(e.target.value)
+            }}
             placeholder={t('comment.describeHere')}
-            className="w-full bg-zinc-950/60 px-3.5 py-3 text-[13px] text-zinc-200 placeholder-zinc-600 resize-none outline-none leading-relaxed"
+            className="bs-textarea"
             rows={3}
           />
         </div>

@@ -1,4 +1,5 @@
 import type { Pin, Drawing } from '../types'
+import { INK_ON_COLOR } from '../constants'
 
 export interface ArrowOptions {
   lineWidth?: number
@@ -118,8 +119,8 @@ export function drawPinMarker(
   ctx.lineWidth = 2
   ctx.stroke()
 
-  ctx.fillStyle = '#ffffff'
-  ctx.font = 'bold 12px system-ui'
+  ctx.fillStyle = INK_ON_COLOR
+  ctx.font = 'bold 12px "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif'
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
   ctx.fillText(String(pin.number), pin.x, pin.y)

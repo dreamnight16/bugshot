@@ -1,4 +1,5 @@
 import { Component, type ReactNode } from 'react'
+import i18next from 'i18next'
 
 interface Props {
   children: ReactNode
@@ -21,20 +22,24 @@ export default class ErrorBoundary extends Component<Props, State> {
 
   render() {
     if (this.state.hasError) {
+      // Class component: read the shared i18next instance directly.
+      const t = i18next.t.bind(i18next)
       return (
-        <div className="flex flex-col items-center justify-center h-screen gap-4 bg-zinc-950 text-zinc-300">
-          <p className="text-lg font-semibold">Something went wrong</p>
-          <p className="text-xs text-zinc-600 max-w-md text-center">
-            {this.state.error?.message || 'Unknown error'}
+        <div className="bs-fallback" role="alert">
+          <p className="bs-kicker">{t('error.kicker')}</p>
+          <h1 className="bs-display">{t('error.title')}</h1>
+          <p className="bs-fallback__detail">
+            {this.state.error?.message || t('error.unknown')}
           </p>
           <button
+            type="button"
             onClick={() => {
               this.setState({ hasError: false, error: null })
               window.location.reload()
             }}
-            className="px-4 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-sm transition-colors"
+            className="bs-btn bs-btn--primary dn-interactive dn-focus"
           >
-            Reload
+            {t('error.reload')}
           </button>
         </div>
       )

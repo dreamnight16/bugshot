@@ -8,6 +8,23 @@
     "shortcutHint": "P 注釈 · A 矢印 · R 矩形 · F ペン",
     "startHint": "ショートカットまたはキャプチャ方法を選択"
   },
+  "capture": {
+    "kicker": "スクリーンキャプチャ",
+    "stepsTitle": "使い方",
+    "step1": "全画面・範囲・ウィンドウをキャプチャ",
+    "step2": "問題箇所に印を付けて説明を書く",
+    "step3": "レポートをコピー、または PNG と JSON を書き出す",
+    "modesLabel": "キャプチャ方法",
+    "fullscreenHint": "プライマリディスプレイ全体",
+    "regionHint": "ドラッグで範囲を選択",
+    "windowHint": "他のアプリケーションのウィンドウ",
+    "factsTitle": "このビルドに含まれるもの",
+    "factUia": "各ピン位置の Windows UI Automation 要素を読み取る",
+    "factMcp": "ローカル MCP エンドポイント 127.0.0.1:3846（ループバックのみ）",
+    "factExport": "Markdown レポート、注釈付き PNG、JSON セッションを書き出す",
+    "factHistory": "元に戻す履歴は 50 ステップ",
+    "staticNote": "README とソースに基づく静的な説明です。BugShot が実際の状態を表示するのは現在のセッションのみです。"
+  },
   "toolbar": {
     "pin": "注釈",
     "arrow": "矢印",
@@ -22,7 +39,32 @@
     "clearAll": "注釈を消去",
     "exporting": "レポートを準備中...",
     "exported": "デスクトップアプリに送信済み",
-    "exportFailed": "エクスポートに失敗しました"
+    "exportFailed": "エクスポートに失敗しました",
+    "toolsLabel": "注釈ツール"
+  },
+  "session": {
+    "window": "ウィンドウ",
+    "capturedAt": "キャプチャ日時",
+    "untitled": "無題のキャプチャ",
+    "image": "画像",
+    "tool": "ツール",
+    "pins": "ピン",
+    "drawings": "描画",
+    "zoomLabel": "ズーム",
+    "screenshotAlt": "キャプチャしたスクリーンショット"
+  },
+  "zoom": {
+    "in": "拡大",
+    "out": "縮小",
+    "fit": "表示を 100% に戻す"
+  },
+  "index": {
+    "title": "注釈一覧",
+    "hint": "項目を選ぶとメモを編集できます",
+    "emptyTitle": "まだ注釈がありません",
+    "emptyStep1": "スクリーンショットをクリックしてピンを置きます",
+    "emptyStep2": "ピンはドラッグ、または方向キーで移動できます",
+    "noteLabel": "メモ"
   },
   "sidebar": {
     "empty": "スクリーンショットをクリックして注釈を追加\nドラッグで位置を変更",
@@ -41,6 +83,10 @@
     "describeHere": "問題を説明...",
     "deleteAnnotation": "注釈を削除",
     "close": "閉じる"
+  },
+  "windowControls": {
+    "minimize": "最小化",
+    "close": "トレイに隠す"
   },
   "export": {
     "feedbackTitle": "UI 問題レポート",
@@ -78,10 +124,20 @@
     "layoutReq2": "不要なラッパー要素を導入しないこと",
     "layoutReq3": "修正後のレスポンシブ動作を確認すること"
   },
+  "a11y": {
+    "nudgeHint": "方向キーで移動、Shift を押しながらで 10 ピクセル"
+  },
+  "error": {
+    "kicker": "BugShot",
+    "title": "問題が発生しました",
+    "unknown": "不明なエラー",
+    "reload": "再読み込み"
+  },
   "language": {
     "en": "English",
     "zh-CN": "简体中文",
     "zh-TW": "繁體中文",
-    "ja": "日本語"
+    "ja": "日本語",
+    "label": "言語"
   }
 }

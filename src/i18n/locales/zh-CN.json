@@ -8,6 +8,23 @@
     "shortcutHint": "P 标注模式 · A 箭头 · R 矩形 · F 画笔",
     "startHint": "使用快捷键或选择截取方式"
   },
+  "capture": {
+    "kicker": "屏幕截取",
+    "stepsTitle": "工作方式",
+    "step1": "截取全屏、区域或窗口",
+    "step2": "标出问题并写清描述",
+    "step3": "复制报告，或导出 PNG 与 JSON",
+    "modesLabel": "截取方式",
+    "fullscreenHint": "整个主显示器",
+    "regionHint": "拖拽选择一块区域",
+    "windowHint": "其它应用的窗口",
+    "factsTitle": "当前版本已具备",
+    "factUia": "读取每个标注位置的 Windows UI Automation 元素",
+    "factMcp": "本地 MCP 端点 127.0.0.1:3846，仅限回环",
+    "factExport": "导出 Markdown 报告、带标注 PNG 与 JSON 会话",
+    "factHistory": "撤销历史保留 50 步",
+    "staticNote": "以上为 README 与源码中的静态说明；BugShot 只对当前会话显示真实状态。"
+  },
   "toolbar": {
     "pin": "标注",
     "arrow": "箭头",
@@ -22,7 +39,32 @@
     "clearAll": "清除标注",
     "exporting": "正在准备报告...",
     "exported": "已发送到桌面应用",
-    "exportFailed": "导出失败"
+    "exportFailed": "导出失败",
+    "toolsLabel": "标注工具"
+  },
+  "session": {
+    "window": "窗口",
+    "capturedAt": "截取时间",
+    "untitled": "未命名截取",
+    "image": "图像",
+    "tool": "工具",
+    "pins": "标注",
+    "drawings": "绘图",
+    "zoomLabel": "缩放",
+    "screenshotAlt": "截取的屏幕截图"
+  },
+  "zoom": {
+    "in": "放大",
+    "out": "缩小",
+    "fit": "恢复 100% 视图"
+  },
+  "index": {
+    "title": "标注索引",
+    "hint": "选择一条标注即可编辑备注",
+    "emptyTitle": "还没有标注",
+    "emptyStep1": "点击截图放置一个标注",
+    "emptyStep2": "拖动标注，或用方向键移动位置",
+    "noteLabel": "备注"
   },
   "sidebar": {
     "empty": "点击截图添加标注\n拖拽标注移动位置",
@@ -41,6 +83,10 @@
     "describeHere": "描述这个问题...",
     "deleteAnnotation": "删除标注",
     "close": "关闭"
+  },
+  "windowControls": {
+    "minimize": "最小化",
+    "close": "隐藏到托盘"
   },
   "export": {
     "feedbackTitle": "UI 问题报告",
@@ -78,10 +124,20 @@
     "layoutReq2": "不要引入不必要的嵌套容器",
     "layoutReq3": "检查修复后的响应式表现"
   },
+  "a11y": {
+    "nudgeHint": "方向键移动，按住 Shift 每次 10 像素"
+  },
+  "error": {
+    "kicker": "BugShot",
+    "title": "出现了问题",
+    "unknown": "未知错误",
+    "reload": "重新加载"
+  },
   "language": {
     "en": "English",
     "zh-CN": "简体中文",
     "zh-TW": "繁體中文",
-    "ja": "日本語"
+    "ja": "日本語",
+    "label": "语言"
   }
 }

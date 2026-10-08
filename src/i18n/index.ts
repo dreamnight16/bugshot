@@ -7,6 +7,8 @@ import ja from './locales/ja.json'
 
 const STORAGE_KEY = 'uipin-language'
 
+const SUPPORTED = ['en', 'zh-CN', 'zh-TW', 'ja']
+
 function detectLanguage(): string {
   const stored = localStorage.getItem(STORAGE_KEY)
   if (stored) return stored
@@ -16,6 +18,11 @@ function detectLanguage(): string {
   if (nav.startsWith('zh')) return 'zh-CN'
   if (nav.startsWith('ja')) return 'ja'
   return 'en'
+}
+
+/** Keeps the document language in sync so assistive tech reads the right language. */
+function applyDocumentLanguage(lng: string) {
+  document.documentElement.lang = SUPPORTED.includes(lng) ? lng : 'en'
 }
 
 i18next.use(initReactI18next).init({
@@ -31,6 +38,9 @@ i18next.use(initReactI18next).init({
     escapeValue: false,
   },
 })
+
+applyDocumentLanguage(i18next.language)
+i18next.on('languageChanged', applyDocumentLanguage)
 
 export function setLanguage(lng: string) {
   localStorage.setItem(STORAGE_KEY, lng)

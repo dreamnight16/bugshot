@@ -1,7 +1,6 @@
 import { useState, useCallback } from 'react'
 import type { Pin, UIAElementInfo } from '../types'
-
-const COLORS = ['#ef4444', '#eab308', '#3b82f6', '#22c55e']
+import { PIN_COLORS } from '../constants'
 
 async function queryUIA(x: number, y: number): Promise<UIAElementInfo | undefined> {
   try {
@@ -16,7 +15,7 @@ export function usePins() {
 
   const add = useCallback(async (x: number, y: number): Promise<Pin> => {
     const nextNumber = pins.length + 1
-    const color = COLORS[(nextNumber - 1) % COLORS.length]
+    const color = PIN_COLORS[(nextNumber - 1) % PIN_COLORS.length]
     const uia = await queryUIA(x, y)
     const pin: Pin = {
       id: crypto.randomUUID(),

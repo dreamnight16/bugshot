@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import WelcomeScreen from './components/WelcomeScreen'
 import Annotator from './components/Annotator'
 import Toolbar from './components/Toolbar'
@@ -16,6 +16,9 @@ function genId(): string {
   return Date.now().toString(36) + Math.random().toString(36).slice(2)
 }
 
+/** Consecutive arrow-key nudges inside this window share one undo step. */
+const NUDGE_HISTORY_WINDOW = 700
+
 function AppInner() {
   const { state, dispatch } = useAppState()
   const { activeTool, selectedPinId, selectedDrawingId, sessions, activeSessionId } = state
@@ -25,6 +28,7 @@ function AppInner() {
   const pins = usePins()
   const drawings = useDrawings()
   const history = useHistory()
+  const nudgeStamp = useRef(0)
 
   // Listen for screenshots from Electron main process
   useEffect(() => {
@@ -84,6 +88,15 @@ function AppInner() {
     })
   }, [])
 
+  /**
+   * Records the state before an editing gesture. Dragging a mark, typing into a
+   * note and nudging with the keyboard each collapse to a single undo step,
+   * instead of one step per mouse move or keystroke.
+   */
+  const handleEditStart = useCallback(() => {
+    history.pushState(pins.items, drawings.items)
+  }, [pins.items, drawings.items, history])
+
   const handleCanvasClick = useCallback(async (x: number, y: number) => {
     dispatch({ type: 'SELECT_DRAWING', id: null })
     if (activeTool === 'pin') {
@@ -133,9 +146,20 @@ function AppInner() {
   }, [])
 
   const handlePinUpdate = useCallback((id: string, updates: Parameters<typeof pins.update>[1]) => {
-    history.pushState(pins.items, drawings.items)
     pins.update(id, updates)
-  }, [pins, drawings, history])
+  }, [pins])
+
+  const handleNudge = useCallback((dx: number, dy: number) => {
+    if (!selectedPinId) return
+    const pin = pins.items.find(p => p.id === selectedPinId)
+    if (!pin) return
+    const now = Date.now()
+    if (now - nudgeStamp.current > NUDGE_HISTORY_WINDOW) {
+      history.pushState(pins.items, drawings.items)
+    }
+    nudgeStamp.current = now
+    pins.update(selectedPinId, { x: pin.x + dx, y: pin.y + dy })
+  }, [selectedPinId, pins, drawings.items, history])
 
   const handlePinDelete = useCallback((id: string) => {
     history.pushState(pins.items, drawings.items)
@@ -147,14 +171,14 @@ function AppInner() {
     history.pushState(pins.items, drawings.items)
     drawings.remove(id)
     dispatch({ type: 'DESELECT_ALL' })
-  }, [pins.items, drawings.items, history])
+  }, [pins.items, drawings, history])
 
   if (!activeSession) {
     return <WelcomeScreen onCapture={handleNewCapture} />
   }
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="bs-app">
       <Toolbar
         activeTool={activeTool}
         onToolChange={(tool) => dispatch({ type: 'SET_TOOL', tool })}
@@ -168,26 +192,26 @@ function AppInner() {
         pins={pins.items}
         drawings={drawings.items}
       />
-      <div className="flex flex-1 overflow-hidden">
-        <div className="flex-1 relative">
-          <Annotator
-            session={activeSession}
-            activeTool={activeTool}
-            pins={pins.items}
-            drawings={drawings.items}
-            selectedPinId={selectedPinId}
-            selectedDrawingId={selectedDrawingId}
-            onCanvasClick={handleCanvasClick}
-            onPinUpdate={handlePinUpdate}
-            onPinDelete={handlePinDelete}
-            onPinSelect={(id) => dispatch({ type: 'SELECT_PIN', id })}
-            onDrawingSelect={(id) => dispatch({ type: 'SELECT_DRAWING', id })}
-            onDrawingStart={handleDrawingStart}
-            onDrawingEnd={handleDrawingEnd}
-            onToolChange={(tool) => dispatch({ type: 'SET_TOOL', tool })}
-            onDeselectAll={() => dispatch({ type: 'DESELECT_ALL' })}
-          />
-        </div>
+      <div className="bs-app__body">
+        <Annotator
+          session={activeSession}
+          activeTool={activeTool}
+          pins={pins.items}
+          drawings={drawings.items}
+          selectedPinId={selectedPinId}
+          selectedDrawingId={selectedDrawingId}
+          onCanvasClick={handleCanvasClick}
+          onPinUpdate={handlePinUpdate}
+          onPinDelete={handlePinDelete}
+          onPinSelect={(id) => dispatch({ type: 'SELECT_PIN', id })}
+          onDrawingSelect={(id) => dispatch({ type: 'SELECT_DRAWING', id })}
+          onDrawingStart={handleDrawingStart}
+          onDrawingEnd={handleDrawingEnd}
+          onToolChange={(tool) => dispatch({ type: 'SET_TOOL', tool })}
+          onDeselectAll={() => dispatch({ type: 'DESELECT_ALL' })}
+          onEditStart={handleEditStart}
+          onNudge={handleNudge}
+        />
         <PinSidebar
           pins={pins.items}
           drawings={drawings.items}
@@ -199,6 +223,7 @@ function AppInner() {
           onPinDelete={handlePinDelete}
           onDrawingUpdate={(id, comment) => drawings.update(id, { comment })}
           onDrawingDelete={handleDrawingDelete}
+          onEditStart={handleEditStart}
         />
       </div>
     </div>

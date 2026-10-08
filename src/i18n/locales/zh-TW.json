@@ -8,6 +8,23 @@
     "shortcutHint": "P 標註模式 · A 箭頭 · R 矩形 · F 畫筆",
     "startHint": "使用快捷鍵或選擇擷取方式"
   },
+  "capture": {
+    "kicker": "螢幕擷取",
+    "stepsTitle": "運作方式",
+    "step1": "擷取全螢幕、區域或視窗",
+    "step2": "標出問題並寫清楚描述",
+    "step3": "複製報告，或匯出 PNG 與 JSON",
+    "modesLabel": "擷取方式",
+    "fullscreenHint": "整個主顯示器",
+    "regionHint": "拖曳選擇一個區域",
+    "windowHint": "其他應用程式的視窗",
+    "factsTitle": "目前版本已具備",
+    "factUia": "讀取每個標註位置的 Windows UI Automation 元素",
+    "factMcp": "本機 MCP 端點 127.0.0.1:3846，僅限回送",
+    "factExport": "匯出 Markdown 報告、含標註 PNG 與 JSON 工作階段",
+    "factHistory": "復原歷程保留 50 步",
+    "staticNote": "以上為 README 與原始碼中的靜態說明；BugShot 只對目前工作階段顯示真實狀態。"
+  },
   "toolbar": {
     "pin": "標註",
     "arrow": "箭頭",
@@ -22,7 +39,32 @@
     "clearAll": "清除標註",
     "exporting": "正在準備報告...",
     "exported": "已傳送至桌面應用程式",
-    "exportFailed": "匯出失敗"
+    "exportFailed": "匯出失敗",
+    "toolsLabel": "標註工具"
+  },
+  "session": {
+    "window": "視窗",
+    "capturedAt": "擷取時間",
+    "untitled": "未命名擷取",
+    "image": "影像",
+    "tool": "工具",
+    "pins": "標註",
+    "drawings": "繪圖",
+    "zoomLabel": "縮放",
+    "screenshotAlt": "擷取的螢幕畫面"
+  },
+  "zoom": {
+    "in": "放大",
+    "out": "縮小",
+    "fit": "還原 100% 檢視"
+  },
+  "index": {
+    "title": "標註索引",
+    "hint": "選擇一筆標註即可編輯備註",
+    "emptyTitle": "還沒有標註",
+    "emptyStep1": "點擊截圖放置一個標註",
+    "emptyStep2": "拖曳標註，或用方向鍵移動位置",
+    "noteLabel": "備註"
   },
   "sidebar": {
     "empty": "點擊截圖新增標註\n拖曳標註移動位置",
@@ -41,6 +83,10 @@
     "describeHere": "描述這個問題...",
     "deleteAnnotation": "刪除標註",
     "close": "關閉"
+  },
+  "windowControls": {
+    "minimize": "最小化",
+    "close": "隱藏到系統匣"
   },
   "export": {
     "feedbackTitle": "UI 問題報告",
@@ -78,10 +124,20 @@
     "layoutReq2": "不要引入不必要的巢狀容器",
     "layoutReq3": "檢查修復後的響應式表現"
   },
+  "a11y": {
+    "nudgeHint": "方向鍵移動，按住 Shift 每次 10 像素"
+  },
+  "error": {
+    "kicker": "BugShot",
+    "title": "發生了問題",
+    "unknown": "未知錯誤",
+    "reload": "重新載入"
+  },
   "language": {
     "en": "English",
     "zh-CN": "简体中文",
     "zh-TW": "繁體中文",
-    "ja": "日本語"
+    "ja": "日本語",
+    "label": "語言"
   }
 }

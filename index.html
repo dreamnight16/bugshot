@@ -8,23 +8,12 @@
       content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'"
     />
     <title>BugShot</title>
-    <style>
-      @import "tailwindcss";
-      .drag { -webkit-app-region: drag; }
-      .no-drag { -webkit-app-region: no-drag; }
-      .rounded-sm, .rounded-md, .rounded-lg, .rounded-xl, .rounded-2xl,
-      button, input, textarea, select { border-radius: 0 !important; }
-      @keyframes bugshot-signal {
-        from { transform: translate3d(-2%, -1%, 0) scale(.98); opacity: .65; }
-        to { transform: translate3d(2%, 1%, 0) scale(1.03); opacity: 1; }
-      }
-      .signal-aura { animation: bugshot-signal 14s cubic-bezier(.22,1,.36,1) infinite alternate; }
-      @media (prefers-reduced-motion: reduce) {
-        *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
-      }
-    </style>
+    <!-- DreamNight Design Language, vendored at a pinned version. See VERSION. -->
+    <link rel="stylesheet" href="/vendor/dndl/tokens.css" />
+    <link rel="stylesheet" href="/vendor/dndl/materials.css" />
+    <link rel="stylesheet" href="/vendor/dndl/motion.css" />
   </head>
-  <body class="bg-[#0d131a] text-zinc-100 overflow-hidden select-none">
+  <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
